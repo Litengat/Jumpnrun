@@ -1,3 +1,4 @@
+import pygame
 from collision import Collision
 from render import Renderer
 
@@ -10,5 +11,8 @@ class Object(Collision, Renderer):
     z_render: int
     
 
-    def render():
+    def render(this,screen: pygame.Surface):
+        pass
+    
+    def update(this,screen: pygame.Surface):
         pass

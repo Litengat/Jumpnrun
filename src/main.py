@@ -24,10 +24,7 @@ GREEN = (0, 200, 0)
 # Player settings
 player_width = 50
 player_height = 60
-player_x = 100
-player_y = HEIGHT - player_height - 50
-player_vel_x = 0
-player_vel_y = 0
+
 move_speed = 5
 jump_power = 15
 gravity = 1
@@ -37,12 +34,16 @@ on_ground = False
 ground_rect = pygame.Rect(0, HEIGHT - 50, WIDTH, 50)
 
 # Player rectangle
-player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
+# Calculate initial player position
+initial_player_x = 50  # Example starting X
+initial_player_y = HEIGHT - 50 - player_height  # Start on top of the ground
+
 
 objects = []
 
 
-objects.append(Player())
+# player = Player() # Old instantiation
+player = Player(initial_player_x, initial_player_y, player_width, player_height, BLUE) # New instantiation
 
 
 # Game loop
@@ -58,26 +59,26 @@ while running:
 
     # Input
     keys = pygame.key.get_pressed()
-    player_vel_x = 0
+    player.vel_x = 0
     if keys[pygame.K_a]:
-        player_vel_x = -move_speed
+        player.vel_x = -move_speed
     if keys[pygame.K_d]:
-        player_vel_x = move_speed
+        player.vel_x = move_speed
     if keys[pygame.K_SPACE] and on_ground:
-        player_vel_y = -jump_power
+        player.vel_y = -jump_power
         on_ground = False
 
     # Apply gravity
-    player_vel_y += gravity
+    player.vel_y += gravity
 
     # Move player
-    player_rect.x += player_vel_x
-    player_rect.y += player_vel_y
+    player.rect.x += player.vel_x
+    player.rect.y += player.vel_y
 
     # Collision with ground
-    if player_rect.colliderect(ground_rect):
-        player_rect.bottom = ground_rect.top
-        player_vel_y = 0
+    if player.rect.colliderect(ground_rect):
+        player.rect.bottom = ground_rect.top
+        player.vel_y = 0
         on_ground = True
     else:
         on_ground = False
@@ -86,9 +87,10 @@ while running:
     for obj in objects:
         obj.render(screen)
     
-    # # Draw ground and player
-    # pygame.draw.rect(screen, GREEN, ground_rect)
-    # pygame.draw.rect(screen, BLUE, player_rect)
+    # Draw ground and player
+    pygame.draw.rect(screen, GREEN, ground_rect)
+    # pygame.draw.rect(screen, BLUE, player_rect) # Old, problematic drawing
+    player.render(screen) # Use the player's draw method
     # Update display
     pygame.display.flip()
 

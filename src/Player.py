@@ -1,6 +1,3 @@
-
-
-
 import pygame
 from object import Object
 
@@ -16,16 +13,20 @@ player_vel_y = 0
 class Player(Object):
     x: int
     y: int
+    vel_y: int
+    vel_x: int
     width: int
     height: int
     rect: pygame.Rect
 
-    def __init__(this):
-        this.rect = pygame.Rect(player_x, player_y, player_width, player_height)
-        
-    def render(this,screen: pygame.Surface):
-        pygame.draw.rect(screen, (100, 100, 100), pygame.Rect(0, 0, 100, 100))
+    def __init__(this, x, y, width, height, color):
+        this.rect = pygame.Rect(x, y, width, height)
+        this.vel_x = 0
+        this.vel_y = 0
+        this.color = color
 
+    def render(this, screen: pygame.Surface):
+        pygame.draw.rect(screen, this.color, this.rect)
 
     def update():
         pass
