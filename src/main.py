@@ -1,6 +1,9 @@
 import pygame
 import sys
 
+from Player import Player
+from object import Object
+
 
 pygame.init()
 
@@ -35,6 +38,12 @@ ground_rect = pygame.Rect(0, HEIGHT - 50, WIDTH, 50)
 
 # Player rectangle
 player_rect = pygame.Rect(player_x, player_y, player_width, player_height)
+
+objects = []
+
+
+objects.append(Player())
+
 
 # Game loop
 running = True
@@ -73,10 +82,13 @@ while running:
     else:
         on_ground = False
 
-    # Draw ground and player
-    pygame.draw.rect(screen, GREEN, ground_rect)
-    pygame.draw.rect(screen, BLUE, player_rect)
 
+    for obj in objects:
+        obj.render(screen)
+    
+    # # Draw ground and player
+    # pygame.draw.rect(screen, GREEN, ground_rect)
+    # pygame.draw.rect(screen, BLUE, player_rect)
     # Update display
     pygame.display.flip()
 
