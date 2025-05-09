@@ -1,98 +1,167 @@
+import os
+import random
+import math
 import pygame
-import sys
-
-from Player import Player
-from object import Object
-
 
 pygame.init()
 
-# Screen settings
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Jump 'n' Run Start")
+pygame.display.set_caption("Platformer")
 
-# Clock for FPS
-clock = pygame.time.Clock()
+WIDTH, HEIGHT = 1000, 800
 FPS = 60
+PLAYER_VEL = 5
 
-# Colors
-WHITE = (255, 255, 255)
-BLUE = (0, 100, 255)
-GREEN = (0, 200, 0)
-
-# Player settings
-player_width = 50
-player_height = 60
-
-move_speed = 5
-jump_power = 15
-gravity = 1
-on_ground = False
-
-# Ground
-ground_rect = pygame.Rect(0, HEIGHT - 50, WIDTH, 50)
-
-# Player rectangle
-# Calculate initial player position
-initial_player_x = 50  # Example starting X
-initial_player_y = HEIGHT - 50 - player_height  # Start on top of the ground
+window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
-objects = []
+
+from os import listdir
+from os.path import isfile, join
+
+from block import Block
+from fire import Fire
+from player import Player
+from level_loader import load_level
 
 
-# player = Player() # Old instantiation
-player = Player(initial_player_x, initial_player_y, player_width, player_height, BLUE) # New instantiation
 
 
-# Game loop
-running = True
-while running:
-    clock.tick(FPS)
-    screen.fill(WHITE)
 
-    # Event handling
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
-    # Input
-    keys = pygame.key.get_pressed()
-    player.vel_x = 0
-    if keys[pygame.K_a]:
-        player.vel_x = -move_speed
-    if keys[pygame.K_d]:
-        player.vel_x = move_speed
-    if keys[pygame.K_SPACE] and on_ground:
-        player.vel_y = -jump_power
-        on_ground = False
 
-    # Apply gravity
-    player.vel_y += gravity
 
-    # Move player
-    player.rect.x += player.vel_x
-    player.rect.y += player.vel_y
 
-    # Collision with ground
-    if player.rect.colliderect(ground_rect):
-        player.rect.bottom = ground_rect.top
-        player.vel_y = 0
-        on_ground = True
-    else:
-        on_ground = False
 
+def get_background(name):
+    image = pygame.image.load(join("assets", "Background", name))
+    _, _, width, height = image.get_rect()
+    tiles = []
+
+    for i in range(WIDTH // width + 1):
+        for j in range(HEIGHT // height + 1):
+            pos = (i * width, j * height)
+            tiles.append(pos)
+
+    return tiles, image
+
+
+def draw(window, background, bg_image, player, objects, offset_x):
+    for tile in background:
+        window.blit(bg_image, tile)
 
     for obj in objects:
-        obj.render(screen)
-    
-    # Draw ground and player
-    pygame.draw.rect(screen, GREEN, ground_rect)
-    # pygame.draw.rect(screen, BLUE, player_rect) # Old, problematic drawing
-    player.render(screen) # Use the player's draw method
-    # Update display
-    pygame.display.flip()
+        obj.draw(window, offset_x)
 
-pygame.quit()
-sys.exit()
+    player.draw(window, offset_x)
+
+    pygame.display.update()
+
+
+def handle_vertical_collision(player, objects, dy):
+    collided_objects = []
+    for obj in objects:
+        if pygame.sprite.collide_mask(player, obj):
+            if dy > 0:
+                player.rect.bottom = obj.rect.top
+                player.landed()
+            elif dy < 0:
+                player.rect.top = obj.rect.bottom
+                player.hit_head()
+
+            collided_objects.append(obj)
+
+    return collided_objects
+
+
+def collide(player, objects, dx):
+    player.move(dx, 0)
+    player.update()
+    collided_object = None
+    for obj in objects:
+        if pygame.sprite.collide_mask(player, obj):
+            collided_object = obj
+            break
+
+    player.move(-dx, 0)
+    player.update()
+    return collided_object
+
+
+def handle_move(player, objects):
+    keys = pygame.key.get_pressed()
+
+    player.x_vel = 0
+    collide_left = collide(player, objects, -PLAYER_VEL * 2)
+    collide_right = collide(player, objects, PLAYER_VEL * 2)
+
+    if keys[pygame.K_LEFT] and not collide_left:
+        player.move_left(PLAYER_VEL)
+    if keys[pygame.K_RIGHT] and not collide_right:
+        player.move_right(PLAYER_VEL)
+
+    vertical_collide = handle_vertical_collision(player, objects, player.y_vel)
+    to_check = [collide_left, collide_right, *vertical_collide]
+
+    for obj in to_check:
+        if obj and obj.name == "fire":
+            player.make_hit()
+
+
+def main(window):
+    clock = pygame.time.Clock()
+    background, bg_image = get_background("Blue.png")
+
+    block_size = 96
+
+    player = Player(100, 100, 50, 50)
+    
+    # Create a directory for levels if it doesn't exist
+    os.makedirs("levels", exist_ok=True)
+    
+    # Load level objects from JSON
+    objects = load_level("level1")
+
+    
+    # Create floor blocks as a fallback if no level is loaded
+    # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
+    #          for i in range(-WIDTH // block_size, (WIDTH * 2) // block_size)]
+    
+    # Use level objects if available, otherwise use default level
+    # if level_objects:
+    #     objects = level_objects
+    # else:
+    #     objects = [*floor, Block(0, HEIGHT - block_size * 2, block_size),
+    #               Block(block_size * 3, HEIGHT - block_size * 4, block_size)]
+
+
+    offset_x = 0
+    scroll_area_width = 200
+
+    run = True
+    while run:
+        clock.tick(FPS)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                break
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE and player.jump_count < 2:
+                    player.jump()
+
+        player.loop(FPS)
+        # fire.loop()
+        handle_move(player, objects)
+        draw(window, background, bg_image, player, objects, offset_x)
+
+        if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_vel > 0) or (
+                (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
+            offset_x += player.x_vel
+
+    pygame.quit()
+    quit()
+
+
+if __name__ == "__main__":
+    main(window)
