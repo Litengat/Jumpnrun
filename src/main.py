@@ -21,6 +21,7 @@ from os.path import isfile, join
 from block import Block
 from fire import Fire
 from player import Player
+from level_loader import load_level
 
 
 
@@ -113,12 +114,25 @@ def main(window):
     block_size = 96
 
     player = Player(100, 100, 50, 50)
-    fire = Fire(100, HEIGHT - block_size - 64, 16, 32)
-    fire.on()
-    floor = [Block(i * block_size, HEIGHT - block_size, block_size)
-             for i in range(-WIDTH // block_size, (WIDTH * 2) // block_size)]
-    objects = [*floor, Block(0, HEIGHT - block_size * 2, block_size),
-               Block(block_size * 3, HEIGHT - block_size * 4, block_size), fire]
+    
+    # Create a directory for levels if it doesn't exist
+    os.makedirs("levels", exist_ok=True)
+    
+    # Load level objects from JSON
+    objects = load_level("level1")
+
+    
+    # Create floor blocks as a fallback if no level is loaded
+    # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
+    #          for i in range(-WIDTH // block_size, (WIDTH * 2) // block_size)]
+    
+    # Use level objects if available, otherwise use default level
+    # if level_objects:
+    #     objects = level_objects
+    # else:
+    #     objects = [*floor, Block(0, HEIGHT - block_size * 2, block_size),
+    #               Block(block_size * 3, HEIGHT - block_size * 4, block_size)]
+
 
     offset_x = 0
     scroll_area_width = 200
@@ -137,7 +151,7 @@ def main(window):
                     player.jump()
 
         player.loop(FPS)
-        fire.loop()
+        # fire.loop()
         handle_move(player, objects)
         draw(window, background, bg_image, player, objects, offset_x)
 
