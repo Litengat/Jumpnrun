@@ -1,7 +1,7 @@
 
 import pygame
 from main import get_block
-from Object import Object
+from object import Object
 
 
 class Block(Object):

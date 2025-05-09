@@ -5,9 +5,9 @@ import pygame
 from os import listdir
 from os.path import isfile, join
 
-from Block import Block
-from Fire import Fire
-from Player import Player
+from block import Block
+from fire import Fire
+from player import Player
 pygame.init()
 
 pygame.display.set_caption("Platformer")

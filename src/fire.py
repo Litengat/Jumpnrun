@@ -1,5 +1,5 @@
 import pygame
-from Object import Object
+from object import Object
 from main import load_sprite_sheets
 
 
