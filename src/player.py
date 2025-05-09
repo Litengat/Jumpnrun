@@ -1,7 +1,6 @@
 import pygame
 
-from main import load_sprite_sheets
-
+from sprites import load_sprite_sheets
 
 class Player(pygame.sprite.Sprite):
     COLOR = (255, 0, 0)
