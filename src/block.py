@@ -6,25 +6,23 @@ from object import Object
 block_size = 96
 WIDTH, HEIGHT = 1000, 800
 
-inages = {
-    "grass": join("assets", "Terrain", "Terrain.png")
+images = {
+    "grass": join("assets", "Terrain", "grass.png")
 }
 
 
 
 
 class Block(Object):
-    def __init__(self, x, y, size):
+    def __init__(self, x, y, size,type):
         super().__init__(x * block_size, HEIGHT - y * block_size, size, size)
-        block = get_block(size)
+        block = get_block(type)
         self.image.blit(block, (0, 0))
         self.mask = pygame.mask.from_surface(self.image)
 
 
-def get_block(size):
-    path = join("assets", "Terrain", "Terrain.png")
+def get_block(type):
+    path = images[type]
     image = pygame.image.load(path).convert_alpha()
-    surface = pygame.Surface((size, size), pygame.SRCALPHA, 32)
-    rect = pygame.Rect(96, 0, size, size)
-    surface.blit(image, (0, 0), rect)
-    return pygame.transform.scale2x(surface)
+
+    return pygame.transform.scale(image,(96,96))
