@@ -44,3 +44,5 @@ def load_level(level_name):
     except json.JSONDecodeError:
         print(f"Error parsing level file '{level_name}.json'. Invalid JSON format.")
         return []
+    
+    

@@ -3,6 +3,8 @@ import random
 import math
 import pygame
 
+from traps.Fan import Fan
+
 pygame.init()
 
 pygame.display.set_caption("Platformer")
@@ -121,6 +123,7 @@ def main(window):
     # Load level objects from JSON
     objects = load_level("level1")
 
+    objects.append(Fan(3* block_size,2* block_size,24,8))
     
     # Create floor blocks as a fallback if no level is loaded
     # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
@@ -132,7 +135,7 @@ def main(window):
     # else:
     #     objects = [*floor, Block(0, HEIGHT - block_size * 2, block_size),
     #               Block(block_size * 3, HEIGHT - block_size * 4, block_size)]
-
+    
 
     offset_x = 0
     scroll_area_width = 200
