@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level Editor</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.min.css"
+    />
+    <style>
+      body {
+        margin: 2rem;
+      }
+      .editor-container {
+        display: flex;
+        gap: 2rem;
+        height: calc(100vh - 4rem);
+      }
+      .grid-container {
+        border: 1px solid #ccc;
+        background: #f5f5f5;
+        overflow: auto;
+        position: relative;
+        flex-grow: 1;
+        min-height: 500px;
+      }
+      .grid {
+        position: relative;
+        width: 2000px; /* Initial width */
+        height: 2000px; /* Initial height */
+      }
+      .grid-cell {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ddd;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        box-sizing: border-box;
+        background: white;
+      }
+      .grid-cell.grass {
+        background-color: #4caf50;
+      }
+      .grid-cell.fire {
+        background-color: #f44336;
+      }
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        min-width: 200px;
+      }
+      .tool-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      .tool-buttons button {
+        padding: 0.5rem 1rem;
+      }
+      .tool-buttons button.active {
+        background-color: #2196f3;
+        color: white;
+      }
+      .coordinates {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+      .file-input {
+        margin-bottom: 1rem;
+      }
+      .file-input input[type="file"] {
+        display: none;
+      }
+      .file-input label {
+        display: block;
+        padding: 0.5rem 1rem;
+        background: #2196f3;
+        color: white;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      .file-input label:hover {
+        background: #1976d2;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Level Editor</h2>
+    <div class="editor-container">
+      <div class="controls">
+        <div class="file-input">
+          <label for="level-file">Load Level</label>
+          <input type="file" id="level-file" accept=".json" />
+        </div>
+        <div class="tool-buttons">
+          <button id="grass-tool" class="active">Grass</button>
+          <button id="fire-tool">Fire</button>
+          <button id="erase-tool">Erase</button>
+        </div>
+        <button id="download-btn">Download Level</button>
+        <button id="clear-btn">Clear Level</button>
+      </div>
+      <div id="grid-container" class="grid-container">
+        <div id="grid" class="grid"></div>
+      </div>
+    </div>
+    <div id="coordinates" class="coordinates">X: 0, Y: 0</div>
+    <script src="levels.js"></script>
+  </body>
+</html>

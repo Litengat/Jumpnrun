@@ -10,5 +10,5 @@ class Object(pygame.sprite.Sprite):
         self.height = height
         self.name = name
 
-    def draw(self, win, offset_x):
-        win.blit(self.image, (self.rect.x - offset_x, self.rect.y))
+    def draw(self, win, offset_x,offset_y):
+        win.blit(self.image, (self.rect.x - offset_x, self.rect.y - offset_y))

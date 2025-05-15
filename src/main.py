@@ -3,20 +3,20 @@ import random
 import math
 import pygame
 
-from traps.Fan import Fan
+
 
 pygame.init()
 
 pygame.display.set_caption("Platformer")
 
-WIDTH, HEIGHT = 1000, 800
+WIDTH, HEIGHT = 1280, 720
 FPS = 60
 PLAYER_VEL = 5
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
-
+from traps.Fan import Fan
 from os import listdir
 from os.path import isfile, join
 
@@ -47,14 +47,14 @@ def get_background(name):
     return tiles, image
 
 
-def draw(window, background, bg_image, player, objects, offset_x):
+def draw(window, background, bg_image, player, objects, offset_x,offset_y):
     for tile in background:
         window.blit(bg_image, tile)
 
     for obj in objects:
-        obj.draw(window, offset_x)
+        obj.draw(window, offset_x,offset_y)
 
-    player.draw(window, offset_x)
+    player.draw(window, offset_x,offset_y)
 
     pygame.display.update()
 
@@ -96,9 +96,9 @@ def handle_move(player, objects):
     collide_left = collide(player, objects, -PLAYER_VEL * 2)
     collide_right = collide(player, objects, PLAYER_VEL * 2)
 
-    if keys[pygame.K_LEFT] and not collide_left:
+    if keys[pygame.K_a] and not collide_left:
         player.move_left(PLAYER_VEL)
-    if keys[pygame.K_RIGHT] and not collide_right:
+    if keys[pygame.K_d] and not collide_right:
         player.move_right(PLAYER_VEL)
 
     vertical_collide = handle_vertical_collision(player, objects, player.y_vel)
@@ -121,9 +121,10 @@ def main(window):
     os.makedirs("levels", exist_ok=True)
     
     # Load level objects from JSON
-    objects = load_level("level1")
+    objects = load_level("level4")
+    fan = Fan(100,100)
 
-    objects.append(Fan(3* block_size,2* block_size,24,8))
+    objects.append(fan)
     
     # Create floor blocks as a fallback if no level is loaded
     # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
@@ -138,9 +139,13 @@ def main(window):
     
 
     offset_x = 0
+    offset_y = 0
+
+
     scroll_area_width = 200
 
     run = True
+    fan.on()
     while run:
         clock.tick(FPS)
 
@@ -152,16 +157,20 @@ def main(window):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and player.jump_count < 2:
                     player.jump()
-
+        fan.loop()
         player.loop(FPS)
         # fire.loop()
         handle_move(player, objects)
-        draw(window, background, bg_image, player, objects, offset_x)
+        draw(window, background, bg_image, player, objects, offset_x,offset_y)
 
         if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_vel > 0) or (
                 (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
             offset_x += player.x_vel
 
+
+        if ((player.rect.top - offset_y >= HEIGHT - scroll_area_width) and player.y_vel > 0) or (
+                (player.rect.bottom - offset_y <= scroll_area_width) and player.y_vel < 0):
+            offset_y += player.y_vel
     pygame.quit()
     quit()
 

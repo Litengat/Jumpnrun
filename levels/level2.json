@@ -1,0 +1,540 @@
+{
+  "blocks": [
+    {
+      "type": "grass",
+      "x": 43,
+      "y": 43
+    },
+    {
+      "type": "grass",
+      "x": 42,
+      "y": 43
+    },
+    {
+      "type": "grass",
+      "x": 49,
+      "y": 49
+    },
+    {
+      "type": "grass",
+      "x": 49,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 48,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 30,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 31,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 33,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 35,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 36,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 37,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 38,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 42,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 43,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 44,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 45,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 46,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 47,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 43,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 42,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 42,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 46,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 45,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 44,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 45,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 44,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 43,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 43,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 42,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 42,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 38,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 37,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 37,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 36,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 38,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 38,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 34,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 33,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 4
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 33,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 35,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 34,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 33,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 10
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 12
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 13
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 13
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 13
+    },
+    {
+      "type": "grass",
+      "x": 38,
+      "y": 14
+    },
+    {
+      "type": "grass",
+      "x": 37,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 38,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 39,
+      "y": 14
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 14
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 14
+    },
+    {
+      "type": "grass",
+      "x": 41,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 40,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 36,
+      "y": 16
+    },
+    {
+      "type": "grass",
+      "x": 36,
+      "y": 17
+    },
+    {
+      "type": "grass",
+      "x": 37,
+      "y": 17
+    },
+    {
+      "type": "grass",
+      "x": 37,
+      "y": 16
+    },
+    {
+      "type": "grass",
+      "x": 32,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 31,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 30,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 4
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 10
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 4
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 2
+    }
+  ],
+  "fires": []
+}
