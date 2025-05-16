@@ -171,6 +171,13 @@ def main(window):
         if ((player.rect.top - offset_y >= HEIGHT - scroll_area_width) and player.y_vel > 0) or (
                 (player.rect.bottom - offset_y <= scroll_area_width) and player.y_vel < 0):
             offset_y += player.y_vel
+
+
+        ## Fps
+        font = pygame.font.SysFont("Verdana", 20)
+        fps_text = font.render(str(round(clock.get_fps(), 2)), True, (255, 255, 255))
+        window.blit(fps_text, (10, 10))
+        pygame.display.update()
     pygame.quit()
     quit()
 
