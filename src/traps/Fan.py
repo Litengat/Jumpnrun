@@ -9,13 +9,13 @@ height = 8
 
 class Fan(Object):
     ANIMATION_DELAY = 3
+    PUSH_FORCE = 3  # Force applied to the player
     
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, direction="right"):
         super().__init__(x, y, width, height, "fan")
         self.fire = load_sprite_sheets("Traps", "Fan", width, height)
-        print(self.fire)
-        # self.angel = angel
+        self.direction = direction  # can be "right", "left", "up", "down"
         self.image = self.fire["Off"][0]
         self.mask = pygame.mask.from_surface(self.image)
         self.animation_count = 0
@@ -41,9 +41,20 @@ class Fan(Object):
             self.animation_count = 0
 
 
-    # def collide(self,player: Player):
-    #     if pygame.sprite.collide_mask(player,self.mask):
+    def collide(self, player: Player):
+        if pygame.sprite.collide_mask(self, player) and self.animation_name == "On":
+            if self.direction == "right":
+                player.x_vel = self.PUSH_FORCE
+            elif self.direction == "left":
+                player.x_vel = -self.PUSH_FORCE
+            elif self.direction == "up":
+                player.y_vel = -self.PUSH_FORCE
+            elif self.direction == "down":
+                player.y_vel = self.PUSH_FORCE
+            return True
+        return False
 
 
 
-        
+
+
