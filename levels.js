@@ -1,6 +1,10 @@
 // Level Editor Logic
 
 const CELL_SIZE = 40;
+
+const levelwidth = 100;
+const levelheight = 40;
+
 let currentTool = "grass";
 let level = {
   blocks: [],
@@ -24,9 +28,8 @@ let visibleCells = new Map(); // Map of "x,y" to cell element
 // Initialize grid
 function initGrid() {
   // Create initial cells
-  const initialSize = 50; // 50x50 grid to start
-  for (let y = 0; y < initialSize; y++) {
-    for (let x = 0; x < initialSize; x++) {
+  for (let y = 0; y < levelheight; y++) {
+    for (let x = 0; x < levelwidth; x++) {
       createCell(x, y);
     }
   }
@@ -88,7 +91,9 @@ function handleMouseMove(e) {
     (e.clientX - rect.left + gridContainer.scrollLeft) / CELL_SIZE
   );
   const y = Math.floor(
-    (rect.bottom - e.clientY + gridContainer.scrollTop) / CELL_SIZE
+    (gridContainer.scrollHeight -
+      (e.clientY - rect.top + gridContainer.scrollTop)) /
+      CELL_SIZE
   );
   coordinates.textContent = `X: ${x}, Y: ${y}`;
 }
