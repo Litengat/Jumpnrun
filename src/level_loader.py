@@ -20,10 +20,11 @@ def load_level(level_name):
         # Load blocks
         if "blocks" in level_data:
             for block_data in level_data["blocks"]:
+                type = block_data["type"]
                 x = block_data["x"]
                 y = block_data["y"]
                 size = block_data.get("size", 96)  # Default size is 96
-                objects.append(Block(x, y, size))
+                objects.append(Block(x, y, size,type))
         
         # Load fire traps
         if "fires" in level_data:
@@ -43,3 +44,5 @@ def load_level(level_name):
     except json.JSONDecodeError:
         print(f"Error parsing level file '{level_name}.json'. Invalid JSON format.")
         return []
+    
+    
