@@ -12,3 +12,6 @@ class Object(pygame.sprite.Sprite):
 
     def draw(self, win, offset_x,offset_y):
         win.blit(self.image, (self.rect.x - offset_x, self.rect.y - offset_y))
+    
+    def collide():
+        pass

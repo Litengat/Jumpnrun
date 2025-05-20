@@ -5,7 +5,7 @@ from sprites import load_sprite_sheets
 
 width = 24
 height = 8
-
+hitbox = 200
 
 class Fan(Object):
     ANIMATION_DELAY = 3
@@ -17,7 +17,7 @@ class Fan(Object):
         self.fire = load_sprite_sheets("Traps", "Fan", width, height)
         self.direction = direction  # can be "right", "left", "up", "down"
         self.image = self.fire["Off"][0]
-        self.mask = pygame.mask.from_surface(self.image)
+        self.mask = pygame.mask.Mask((width,height + hitbox),True)
         self.animation_count = 0
         self.animation_name = "Off"
 
@@ -35,7 +35,7 @@ class Fan(Object):
         self.animation_count += 1
 
         self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
-        self.mask = pygame.mask.from_surface(self.image)
+        # self.mask = pygame.mask.from_surface(self.image)
 
         if self.animation_count // self.ANIMATION_DELAY > len(sprites):
             self.animation_count = 0
@@ -43,16 +43,13 @@ class Fan(Object):
 
     def collide(self, player: Player):
         if pygame.sprite.collide_mask(self, player) and self.animation_name == "On":
-            if self.direction == "right":
-                player.x_vel = self.PUSH_FORCE
-            elif self.direction == "left":
-                player.x_vel = -self.PUSH_FORCE
-            elif self.direction == "up":
-                player.y_vel = -self.PUSH_FORCE
-            elif self.direction == "down":
-                player.y_vel = self.PUSH_FORCE
-            return True
+            player.jump()
         return False
+    
+    def draw(self, win, offset_x,offset_y):
+        win.blit(self.image, (self.rect.x - offset_x, self.rect.y - offset_y + hitbox))
+
+    
 
 
 

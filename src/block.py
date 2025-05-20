@@ -2,6 +2,7 @@ from os.path import join
 import pygame
 
 from object import Object
+from player import Player
 
 block_size = 96
 WIDTH, HEIGHT = 1000, 800
@@ -20,9 +21,17 @@ class Block(Object):
         self.image.blit(block, (0, 0))
         self.mask = pygame.mask.from_surface(self.image)
 
+    def collide(this, player: Player):
+        return pygame.sprite.collide_mask(player,this)
+
+
+
+
 
 def get_block(type):
     path = images[type]
     image = pygame.image.load(path).convert_alpha()
 
     return pygame.transform.scale(image,(96,96))
+
+
