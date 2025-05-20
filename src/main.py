@@ -122,7 +122,7 @@ def main(window):
     
     # Load level objects from JSON
     objects = load_level("level")
-    fan = Fan(100,100,"up")
+    fan = Fan(100,500,"up")
 
     objects.append(fan)
     
