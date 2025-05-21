@@ -121,8 +121,13 @@ def main(window):
     os.makedirs("levels", exist_ok=True)
     
     # Load level objects from JSON
+<<<<<<< HEAD
     objects = load_level("level7")
     fan = Fan(100,500,"up")
+=======
+    objects = load_level("level")
+    fan = Fan(100,100,"up")
+>>>>>>> 2cacf705ad2bdaefcd94d71fc8f8e9a43e9f5288
 
     objects.append(fan)
     
