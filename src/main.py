@@ -7,7 +7,7 @@ import pygame
 
 pygame.init()
 
-pygame.display.set_caption("Platformer")
+pygame.display.set_caption("jumpandrun")
 
 WIDTH, HEIGHT = 1280, 720
 FPS = 60
