@@ -52,12 +52,19 @@ def draw(window, background, bg_image, player, objects, offset_x,offset_y):
         window.blit(bg_image, tile)
 
     for obj in objects:
-        obj.draw(window, offset_x,offset_y)
+        if(isInScreen(obj,offset_x,offset_y)):
+            obj.draw(window, offset_x,offset_y)
 
     player.draw(window, offset_x,offset_y)
 
     pygame.display.update()
 
+def isInScreen(obj, offset_x, offset_y):
+    x = obj.rect.x - offset_x
+    y = obj.rect.y - offset_y
+    if x > WIDTH or y > HEIGHT or x < 0 or y < 0:
+        return False
+    return True
 
 def handle_vertical_collision(player, objects, dy):
     collided_objects = []
@@ -80,7 +87,8 @@ def collide(player, objects, dx):
     player.update()
     collided_object = None
     for obj in objects:
-        if obj.collide(player):
+        collide = obj.collide(player)
+        if collide:
             collided_object = obj
             break
 
@@ -122,7 +130,7 @@ def main(window):
     
     # Load level objects from JSON
     objects = load_level("level")
-    fan = Fan(100,500,"up")
+    fan = Fan(100,100,"up")
 
     objects.append(fan)
     

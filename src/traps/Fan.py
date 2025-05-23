@@ -1,3 +1,4 @@
+import math
 import random
 import pygame
 from object import Object
@@ -51,14 +52,18 @@ class Fan(Object):
     def draw(self, win, offset_x,offset_y):
         x = self.rect.x - offset_x
         y = self.rect.y - offset_y + hitbox
+
         win.blit(self.image, (x,y))
+
         self.particel(win,x,y)
 
     def particel(self,win,x,y): 
-        for _ in range(5):
+        for _ in range(4):
+            randomx = random.uniform(0, width * 2)
             self.particles.append({
-            "pos": [0,0],
-            "vel": [random.uniform(-1, 1), random.uniform(-3, -1)],
+            "start": [randomx, y],
+            "pos": [randomx,0],
+            "vel": [random.uniform(-0.2, 0.2), random.uniform(-3, -1)],
             "radius": random.randint(2, 5),
             "life": 60
             })
@@ -67,24 +72,34 @@ class Fan(Object):
         for particle in self.particles[:]:
             particle["pos"][0] += particle["vel"][0]
             particle["pos"][1] += particle["vel"][1]
-            particle["life"] = height  * 2 - particle["pos"][1] 
-            # print(particle["life"])
-            particle["radius"] = max(0, particle["radius"] - 0.05)
+            particle["life"] = particle["pos"][1] 
 
-            # Transparenz (optional)
-            alpha = max(0, min(255, int(particle["life"] * 4.25)))
+
+            progress = min(1, particle["pos"][1]  / hitbox * -0.5)  # 0 bis 1
+            progress_expo_radus = math.pow(0.3, 1- progress)
+            ###  Radius schrumpft proportional zur Entfernung
+            radius = particle["radius"] * (1 - progress_expo_radus)
+
+            # radius = max(0.1, radius)  # nie ganz verschwinden lassen
+      
+            # Alpha-Wert reduziert  sich ebenfalls
+            progress_expo_alpha = math.pow(0.1, 1- progress)
+            alpha = max(0, int(255 * (1 - progress_expo_alpha)))
             color = (255, 255, 255, alpha)
 
-            surf = pygame.Surface((particle["radius"]*2, particle["radius"]*2), pygame.SRCALPHA)
-            pygame.draw.circle(surf, color, (int(particle["radius"]), int(particle["radius"])), int(particle["radius"]))
-            win.blit(surf, (x + particle["pos"][0] - particle["radius"], y +particle["pos"][1] - particle["radius"]))
+            surf = pygame.Surface((radius*2, radius*2), pygame.SRCALPHA)
+            pygame.draw.circle(surf, color, (int(radius), int(radius)), int(radius))
 
-            # Entferne tote Partikel
-            if particle["life"] <= 0:
+            win.blit(surf, (x + particle["pos"][0] - radius, y +particle["pos"][1] - radius))
+
+            ####Entferne tote Partikel
+            if progress >= 0.8:
                 self.particles.remove(particle)
 
 
 
 
 
-
+# Funktion zur Distanzberechnung
+def distance(a, b):
+    return math.hypot(a[0] - b[0], a[1] - b[1]) 
