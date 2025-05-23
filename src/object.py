@@ -1,5 +1,7 @@
 import pygame
 
+from player import Player
+
 
 class Object(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, name=None):
@@ -12,3 +14,6 @@ class Object(pygame.sprite.Sprite):
 
     def draw(self, win, offset_x,offset_y):
         win.blit(self.image, (self.rect.x - offset_x, self.rect.y - offset_y))
+    
+    def collide(player: Player):
+        pass
