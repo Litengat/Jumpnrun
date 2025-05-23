@@ -1,3 +1,4 @@
+import random
 import pygame
 from object import Object
 from player import Player
@@ -5,11 +6,12 @@ from sprites import load_sprite_sheets
 
 width = 24
 height = 8
-hitbox = 200
+hitbox = 300    
 
 class Fan(Object):
     ANIMATION_DELAY = 3
     PUSH_FORCE = 3  # Force applied to the player
+    particles = []
     
 
     def __init__(self, x, y, direction="right"):
@@ -47,9 +49,40 @@ class Fan(Object):
         return False
     
     def draw(self, win, offset_x,offset_y):
-        win.blit(self.image, (self.rect.x - offset_x, self.rect.y - offset_y + hitbox))
+        x = self.rect.x - offset_x
+        y = self.rect.y - offset_y + hitbox
+        win.blit(self.image, (x,y))
+        self.particel(win,x,y)
 
-    
+    def particel(self,win,x,y): 
+        for _ in range(5):
+            self.particles.append({
+            "pos": [0,0],
+            "vel": [random.uniform(-1, 1), random.uniform(-3, -1)],
+            "radius": random.randint(2, 5),
+            "life": 60
+            })
+
+        # Partikel updaten und zeichnen
+        for particle in self.particles[:]:
+            particle["pos"][0] += particle["vel"][0]
+            particle["pos"][1] += particle["vel"][1]
+            particle["life"] = height  * 2 - particle["pos"][1] 
+            # print(particle["life"])
+            particle["radius"] = max(0, particle["radius"] - 0.05)
+
+            # Transparenz (optional)
+            alpha = max(0, min(255, int(particle["life"] * 4.25)))
+            color = (255, 255, 255, alpha)
+
+            surf = pygame.Surface((particle["radius"]*2, particle["radius"]*2), pygame.SRCALPHA)
+            pygame.draw.circle(surf, color, (int(particle["radius"]), int(particle["radius"])), int(particle["radius"]))
+            win.blit(surf, (x + particle["pos"][0] - particle["radius"], y +particle["pos"][1] - particle["radius"]))
+
+            # Entferne tote Partikel
+            if particle["life"] <= 0:
+                self.particles.remove(particle)
+
 
 
 

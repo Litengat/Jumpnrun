@@ -7,7 +7,7 @@ import pygame
 
 pygame.init()
 
-pygame.display.set_caption("jumpandrun")
+pygame.display.set_caption("Jump n run")
 
 WIDTH, HEIGHT = 1280, 720
 FPS = 60
