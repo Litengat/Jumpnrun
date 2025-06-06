@@ -10,6 +10,7 @@ pygame.init()
 pygame.display.set_caption("Jump n run")
 
 WIDTH, HEIGHT = 1280, 720
+
 FPS = 60
 PLAYER_VEL = 5
 
@@ -130,8 +131,7 @@ def main(window):
     
     # Load level objects from JSON
     objects = load_level("level")
-    fan = Fan(100,100,"up")
-
+    fan = Fan(500,300,"up")
     objects.append(fan)
     
     # Create floor blocks as a fallback if no level is loaded

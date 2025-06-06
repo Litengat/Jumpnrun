@@ -13,12 +13,12 @@ class Fan(Object):
     ANIMATION_DELAY = 3
     PUSH_FORCE = 3  # Force applied to the player
     particles = []
-    
 
-    def __init__(self, x, y, direction="right"):
+    def __init__(self, x, y, direction="right", rotation=0):
         super().__init__(x, y, width, height, "fan")
         self.fire = load_sprite_sheets("Traps", "Fan", width, height)
         self.direction = direction  # can be "right", "left", "up", "down"
+        self.rotation = rotation
         self.image = self.fire["Off"][0]
         self.mask = pygame.mask.Mask((width,height + hitbox),True)
         self.animation_count = 0
@@ -52,7 +52,7 @@ class Fan(Object):
     def draw(self, win, offset_x,offset_y):
         x = self.rect.x - offset_x
         y = self.rect.y - offset_y + hitbox
-
+    
         win.blit(self.image, (x,y))
 
         self.particel(win,x,y)
@@ -90,6 +90,7 @@ class Fan(Object):
             surf = pygame.Surface((radius*2, radius*2), pygame.SRCALPHA)
             pygame.draw.circle(surf, color, (int(radius), int(radius)), int(radius))
 
+
             win.blit(surf, (x + particle["pos"][0] - radius, y +particle["pos"][1] - radius))
 
             ####Entferne tote Partikel
@@ -102,4 +103,4 @@ class Fan(Object):
 
 # Funktion zur Distanzberechnung
 def distance(a, b):
-    return math.hypot(a[0] - b[0], a[1] - b[1]) 
+    return math.hypot(a[0] - b[0], a[1] - b[1])
