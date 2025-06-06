@@ -3,6 +3,7 @@ import os
 from os.path import join
 from block import Block
 from fire import Fire
+from traps.Fan import Fan
 
 def load_level(level_name):
     """Load a level from a JSON file and return a list of game objects."""
@@ -25,17 +26,26 @@ def load_level(level_name):
                 y = block_data["y"]
                 size = block_data.get("size", 96)  # Default size is 96
                 objects.append(Block(x, y, size,type))
-        
-        # Load fire traps
-        if "fires" in level_data:
-            for fire_data in level_data["fires"]:
-                x = fire_data["x"]
-                y = fire_data["y"]
-                width = fire_data.get("width", 16)
-                height = fire_data.get("height", 32)
-                fire = Fire(x, y, width, height)
-                fire.on()
-                objects.append(fire)
+        if "objects" in level_data: 
+            for object in level_data["objects"]:
+                type = object["type"]
+                x = block_data["x"]
+                y = block_data["y"]
+                if(type == "Fan"):
+                    objects.append(Fan(x,y))
+                # if(type == "Saw"):
+                    
+        # # Load fire traps
+        # if "fires" in level_data:
+        #     for fire_data in level_data["fires"]:
+        #         x = fire_data["x"]
+        #         y = fire_data["y"]
+        #         width = fire_data.get("width", 16)
+        #         height = fire_data.get("height", 32)
+        #         fire = Fire(x, y, width, height)
+        #         fire.on()
+        #         objects.append(fire)
+
         
         return objects
     except FileNotFoundError:
