@@ -41,8 +41,8 @@ class Saw(Object):
 
 
     def collide(self, player: Player):
-        if pygame.sprite.collide_mask(self, player) and self.animation_name == "On":
-            player.jump()
+        if pygame.sprite.collide_mask(self, player):
+            player.death()
         return False
     
     def draw(self, win, offset_x,offset_y):

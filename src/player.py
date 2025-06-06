@@ -7,7 +7,7 @@ class Player(pygame.sprite.Sprite):
     GRAVITY = 1
     SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
     ANIMATION_DELAY = 3
-
+    DEATH = False
     
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -21,6 +21,9 @@ class Player(pygame.sprite.Sprite):
         self.jump_count = 0
         self.hit = False
         self.hit_count = 0
+
+    def death(self):
+        self.DEATH = True
 
     def jump(self):
         self.y_vel = -self.GRAVITY * 8
@@ -92,7 +95,7 @@ class Player(pygame.sprite.Sprite):
         self.sprite = sprites[sprite_index]
         self.animation_count += 1
         self.update()
-
+    
     def update(self):
         self.rect = self.sprite.get_rect(topleft=(self.rect.x, self.rect.y))
         self.mask = pygame.mask.from_surface(self.sprite)

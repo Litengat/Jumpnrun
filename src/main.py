@@ -119,6 +119,11 @@ def handle_move(player, objects):
             player.make_hit()
 
 
+
+
+
+    
+
 def main(window):
     clock = pygame.time.Clock()
     background, bg_image = get_background("Blue.png")
@@ -160,7 +165,8 @@ def main(window):
     fan.on()
     while run:
         clock.tick(FPS)
-
+        if player.DEATH:
+            continue
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -169,6 +175,7 @@ def main(window):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and player.jump_count < 2:
                     player.jump()
+    
         fan.loop()
         saw.loop()
         player.loop(FPS)
@@ -194,6 +201,7 @@ def main(window):
         pygame.display.update()
     pygame.quit()
     quit()
+
 
 
 if __name__ == "__main__":
