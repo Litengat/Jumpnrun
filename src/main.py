@@ -17,6 +17,7 @@ PLAYER_VEL = 5
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
+from traps.Saw import Saw
 from traps.Fan import Fan
 from os import listdir
 from os.path import isfile, join
@@ -132,7 +133,10 @@ def main(window):
     # Load level objects from JSON
     objects = load_level("level")
     fan = Fan(500,300,"up")
+    saw = Saw(500,200)
+    saw.on()
     objects.append(fan)
+    objects.append(saw)
     
     # Create floor blocks as a fallback if no level is loaded
     # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
@@ -166,7 +170,9 @@ def main(window):
                 if event.key == pygame.K_SPACE and player.jump_count < 2:
                     player.jump()
         fan.loop()
+        saw.loop()
         player.loop(FPS)
+
         # fire.loop()
         handle_move(player, objects)
         draw(window, background, bg_image, player, objects, offset_x,offset_y)

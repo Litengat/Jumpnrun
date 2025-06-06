@@ -58,6 +58,7 @@ class Fan(Object):
         self.particel(win,x,y)
 
     def particel(self,win,x,y): 
+        
         for _ in range(4):
             randomx = random.uniform(0, width * 2)
             self.particles.append({
