@@ -5,22 +5,26 @@ from object import Object
 from player import Player
 from sprites import load_sprite_sheets
 
-width = 24
-height = 8
-hitbox = 300    
+width = 32
+height = 10
+hitbox = 4
 
-class Fan(Object):
+
+particelheigt = 100
+
+class FallingPlatform(Object):
     ANIMATION_DELAY = 3
     PUSH_FORCE = 3  # Force applied to the player
     particles = []
-
+    
     def __init__(self, x, y, direction="right", rotation=0):
         super().__init__(x, y, width, height, "fan")
-        self.fire = load_sprite_sheets("Traps", "Fan", width, height)
+    
+        self.fire = load_sprite_sheets("Traps", "Falling Platforms", width, height)
         self.direction = direction  # can be "right", "left", "up", "down"
         self.rotation = rotation
         self.image = self.fire["Off"][0]
-        self.mask = pygame.mask.Mask((width,height + hitbox),True)
+        self.mask = pygame.mask.Mask((width,height),True)
         self.animation_count = 0
         self.animation_name = "Off"
 
@@ -46,8 +50,8 @@ class Fan(Object):
 
     def collide(self, player: Player):
         if pygame.sprite.collide_mask(self, player) and self.animation_name == "On":
-            player.pushed_by_fan(self.PUSH_FORCE) # Call a new method on player
-            player.jump_count = 0
+            self.rect.y += 2
+            return True
         return False
     
     def draw(self, win, offset_x,offset_y):
@@ -56,28 +60,28 @@ class Fan(Object):
     
         win.blit(self.image, (x,y))
 
-        self.particel(win,x,y)
+        self.particel(win,x,y + height + 10)
 
     def particel(self,win,x,y): 
         
-        for _ in range(4):
-            randomx = random.uniform(0, width * 2)
+        for _ in range(3):
+            randomx = random.uniform(width * 0.3, width * 1.7)
             self.particles.append({
             "start": [randomx, y],
             "pos": [randomx,0],
-            "vel": [random.uniform(-0.2, 0.2), random.uniform(-3, -1)],
-            "radius": random.randint(2, 5),
+            "vel": [random.uniform(-0.1, 0.1), random.uniform(-3, -1)],
+            "radius": random.randint(2, 4),
             "life": 60
             })
 
         # Partikel updaten und zeichnen
         for particle in self.particles[:]:
-            particle["pos"][0] += particle["vel"][0]
-            particle["pos"][1] += particle["vel"][1]
+            particle["pos"][0] -= particle["vel"][0]
+            particle["pos"][1] -= particle["vel"][1]
             particle["life"] = particle["pos"][1] 
 
 
-            progress = min(1, particle["pos"][1]  / hitbox * -0.5)  # 0 bis 1
+            progress = min(1, particle["pos"][1] / particelheigt * 0.5)  # 0 bis 1
             progress_expo_radus = math.pow(0.3, 1- progress)
             ###  Radius schrumpft proportional zur Entfernung
             radius = particle["radius"] * (1 - progress_expo_radus)

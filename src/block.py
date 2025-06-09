@@ -5,7 +5,7 @@ from object import Object
 from player import Player
 
 block_size = 96
-WIDTH, HEIGHT = 1000, 800
+
 
 images = {
     "grass": join("assets", "Terrain", "grass.png")
@@ -16,7 +16,7 @@ images = {
 
 class Block(Object):
     def __init__(self, x, y, size,type):
-        super().__init__(x * block_size, HEIGHT - y * block_size, size, size)
+        super().__init__(x, y, size, size)
         block = get_block(type)
         self.image.blit(block, (0, 0))
         self.mask = pygame.mask.from_surface(self.image)

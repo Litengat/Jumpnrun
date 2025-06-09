@@ -25,6 +25,12 @@ class Player(pygame.sprite.Sprite):
     def death(self):
         self.DEATH = True
 
+    def pushed_by_fan(self, force):
+        self.y_vel = -force
+        self.animation_count = 0
+        # We don't increment jump_count here, as it's not a jump
+        self.fall_count = 0
+
     def jump(self):
         self.y_vel = -self.GRAVITY * 8
         self.animation_count = 0
