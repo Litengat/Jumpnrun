@@ -64,7 +64,7 @@ class FallingPlatform(Object):
 
     def particel(self,win,x,y): 
         
-        for _ in range(3):
+        for _ in range(2):
             randomx = random.uniform(width * 0.3, width * 1.7)
             self.particles.append({
             "start": [randomx, y],
