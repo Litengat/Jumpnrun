@@ -11,7 +11,7 @@ pygame.display.set_caption("Jump n run")
 
 WIDTH, HEIGHT = 1280, 720
 
-FPS = 60
+FPS = 120
 PLAYER_VEL = 5
 
 window = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -60,7 +60,7 @@ def draw(window, background, bg_image, player, objects, offset_x,offset_y):
 def isInScreen(obj, offset_x, offset_y):
     x = obj.rect.x - offset_x
     y = obj.rect.y - offset_y
-    if x > WIDTH * 2 or y > HEIGHT * 2 or x < -WIDTH or y < -HEIGHT:
+    if x > WIDTH * 1.5 or y > HEIGHT * 1.5 or x < -WIDTH / 2 or y < -HEIGHT / 2:
         return False
     return True
 
