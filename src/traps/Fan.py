@@ -15,21 +15,14 @@ class Fan(Object):
     particles = []
 
     def __init__(self, x, y, direction="right", rotation=0):
-        super().__init__(x, y, width, height, "fan")
+        super().__init__(x, y + hitbox / 96, width, height, "fan")
         self.fire = load_sprite_sheets("Traps", "Fan", width, height)
         self.direction = direction  # can be "right", "left", "up", "down"
         self.rotation = rotation
         self.image = self.fire["Off"][0]
         self.mask = pygame.mask.Mask((width,height + hitbox),True)
         self.animation_count = 0
-        self.animation_name = "Off"
-
-    def on(self):
         self.animation_name = "On"
-
-    def off(self):
-        self.animation_name = "Off"
-
     def loop(self):
         sprites = self.fire[self.animation_name]
         sprite_index = (self.animation_count //
@@ -51,6 +44,7 @@ class Fan(Object):
         return False
     
     def draw(self, win, offset_x,offset_y):
+        
         x = self.rect.x - offset_x
         y = self.rect.y - offset_y + hitbox
     

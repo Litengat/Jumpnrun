@@ -27,20 +27,16 @@ def load_level(level_name):
                 x = block_data["x"]
                 y = block_data["y"]
                 size = block_data.get("size", 96)  # Default size is 96
-                objects.append(Block(x, y, size,type))
+                objects.append(Block(x, y,type))
         if "objects" in level_data: 
             for object in level_data["objects"]:
                 type = object["type"]
                 x = object["x"]
                 y = object["y"]
                 if(type == "Fan"):
-                    fan = Fan(x,y)
-                    fan.on()
-                    objects.append(fan)
+                    objects.append(Fan(x,y))
                 if(type == "Saw"):
-                    saw = Saw(x,y)
-                    saw.on()
-                    objects.append(saw)
+                    objects.append(Saw(x,y))
                 if(type == "FallingPlatform"):
                     objects.append(FallingPlatform(x,y))
                     

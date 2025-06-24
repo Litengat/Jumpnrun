@@ -18,13 +18,8 @@ class Saw(Object):
         self.image = self.saw["off"][0]
         self.mask = pygame.mask.Mask((width,height),True)
         self.animation_count = 0
-        self.animation_name = "off"
-
-    def on(self):
         self.animation_name = "on"
 
-    def off(self):
-        self.animation_name = "off"
 
     def loop(self):
         sprites = self.saw[self.animation_name]
@@ -46,6 +41,7 @@ class Saw(Object):
         return False
     
     def draw(self, win, offset_x,offset_y):
+        self.debug(win,offset_x,offset_y)
         x = self.rect.x - offset_x
         y = self.rect.y - offset_y
     

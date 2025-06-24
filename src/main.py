@@ -124,14 +124,13 @@ def handle_move(player, objects):
 
 
 def draw_death_screen(window):
-    """Draw the death screen with retry options"""
-    # Create a semi-transparent overlay
+    #  semi-transparent overlay
     overlay = pygame.Surface((WIDTH, HEIGHT))
     overlay.set_alpha(10)
     overlay.fill((0, 0, 0))
     window.blit(overlay, (0, 0))
     
-    # Fonts for text
+    # Fonts 
     title_font = pygame.font.SysFont("Arial", 72, bold=True)
     instruction_font = pygame.font.SysFont("Arial", 36)
     
@@ -140,57 +139,100 @@ def draw_death_screen(window):
     game_over_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
     window.blit(game_over_text, game_over_rect)
     
-    # Retry instructions
+    # Instructions
     retry_text = instruction_font.render("Press R to Retry", True, (255, 255, 255))
     retry_rect = retry_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
     window.blit(retry_text, retry_rect)
     
-    # Quit instructions
-    quit_text = instruction_font.render("Press Q to Quit", True, (255, 255, 255))
-    quit_rect = quit_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 70))
-    window.blit(quit_text, quit_rect)
+    menu_text = instruction_font.render("Press Q or ESC to Return to Menu", True, (255, 255, 255))
+    menu_rect = menu_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 70))
+    window.blit(menu_text, menu_rect)
     
     pygame.display.update()
 
-def reset_game():
+def reset_game(level_name="level"):
     """Reset the game to initial state"""
     player = Player(100, 100, 50, 50)
     player.DEATH = False
-    objects = load_level("level")
+    objects = load_level(level_name)
     offset_x = 0
     offset_y = 0
     return player, objects, offset_x, offset_y
+
+def get_available_levels():
+    """Get list of available level files"""
+    levels_dir = "levels"
+    levels = []
+    if os.path.exists(levels_dir):
+        for file in os.listdir(levels_dir):
+            if file.endswith('.json'):
+                level_name = file[:-5]  # Remove .json extension
+                levels.append(level_name)
+    return sorted(levels)
+
+def draw_menu(window, background, bg_image, selected_level, available_levels):
+    """Draw the main menu"""
+    # Draw background
+    for tile in background:
+        window.blit(bg_image, tile)
+    
+    # Fonts
+    title_font = pygame.font.SysFont("Arial", 72, bold=True)
+    level_font = pygame.font.SysFont("Arial", 48)
+    instruction_font = pygame.font.SysFont("Arial", 32)
+    
+    # Title
+    title_text = title_font.render("JUMP N RUN", True, (255, 255, 255))
+    title_rect = title_text.get_rect(center=(WIDTH // 2, 100))
+    window.blit(title_text, title_rect)
+    
+    # Level selection
+    level_title = level_font.render("Select Level:", True, (255, 255, 255))
+    level_title_rect = level_title.get_rect(center=(WIDTH // 2, 200))
+    window.blit(level_title, level_title_rect)
+    
+    # Draw level options
+    start_y = 280
+    for i, level in enumerate(available_levels):
+        color = (255, 255, 0) if i == selected_level else (255, 255, 255)
+        level_text = level_font.render(f"{i + 1}. {level}", True, color)
+        level_rect = level_text.get_rect(center=(WIDTH // 2, start_y + i * 60))
+        window.blit(level_text, level_rect)
+    
+    # Instructions
+    instructions = [
+        "Use UP/DOWN arrows to select level",
+        "Press ENTER to start",
+        "Press ESC to quit"
+    ]
+    
+    for i, instruction in enumerate(instructions):
+        inst_text = instruction_font.render(instruction, True, (200, 200, 200))
+        inst_rect = inst_text.get_rect(center=(WIDTH // 2, HEIGHT - 150 + i * 40))
+        window.blit(inst_text, inst_rect)
+    
+    pygame.display.update()
 
 def main(window):
     clock = pygame.time.Clock()
     background, bg_image = get_background("Blue.png")
 
+    # Game states
+    MENU = "menu"
+    GAME = "game"
+    current_state = MENU
+    
+    # Menu variables
+    available_levels = get_available_levels()
+    selected_level_index = 0
+    current_level_name = available_levels[0] if available_levels else "level"
+    
+    # Game variables
     block_size = 96
-
-    player = Player(100, 100, 50, 50)
-    
-    # Create a directory for levels if it doesn't exist
-    os.makedirs("levels", exist_ok=True)
-    
-    # Load level objects from JSON
-    objects = load_level("level")
-
-    # Create floor blocks as a fallback if no level is loaded
-    # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
-    #          for i in range(-WIDTH // block_size, (WIDTH * 2) // block_size)]
-    
-    # Use level objects if available, otherwise use default level
-    # if level_objects:
-    #     objects = level_objects
-    # else:
-    #     objects = [*floor, Block(0, HEIGHT - block_size * 2, block_size),
-    #               Block(block_size * 3, HEIGHT - block_size * 4, block_size)]
-    
-
+    player = None
+    objects = []
     offset_x = 0
     offset_y = 0
-
-
     scroll_area_width = 200
 
     run = True
@@ -204,53 +246,81 @@ def main(window):
                 break
 
             if event.type == pygame.KEYDOWN:
-                if player.DEATH:
-                    # Handle death screen inputs
-                    if event.key == pygame.K_r:
-                        # Retry the level
-                        player, objects, offset_x, offset_y = reset_game()
-                    elif event.key == pygame.K_q:
-                        # Quit the game
+                if current_state == MENU:
+                    # Menu navigation
+                    if event.key == pygame.K_UP:
+                        selected_level_index = (selected_level_index - 1) % len(available_levels)
+                    elif event.key == pygame.K_DOWN:
+                        selected_level_index = (selected_level_index + 1) % len(available_levels)
+                    elif event.key == pygame.K_RETURN:
+                        # Start selected level
+                        current_level_name = available_levels[selected_level_index]
+                        player, objects, offset_x, offset_y = reset_game(current_level_name)
+                        current_state = GAME
+                    elif event.key == pygame.K_ESCAPE:
                         run = False
                         break
-                else:
-                    # Normal game inputs
-                    if event.key == pygame.K_SPACE and player.jump_count < 2:
-                        player.jump()
-        if( player.rect.y >= 1000):
-            player.death()
+                        
+                elif current_state == GAME:
+                    if player.DEATH:
+                        # Handle death screen inputs
+                        if event.key == pygame.K_r:
+                            # Retry the current level
+                            player, objects, offset_x, offset_y = reset_game(current_level_name)
+                        elif event.key == pygame.K_q:
+                            # Return to menu
+                            current_state = MENU
+                        elif event.key == pygame.K_ESCAPE:
+                            # Return to menu
+                            current_state = MENU
+                    else:
+                        # Normal game inputs
+                        if event.key == pygame.K_SPACE and player.jump_count < 2:
+                            player.jump()
+                        elif event.key == pygame.K_ESCAPE:
+                            # Return to menu
+                            current_state = MENU
 
+        if current_state == MENU:
+            # Draw menu
+            draw_menu(window, background, bg_image, selected_level_index, available_levels)
+            
+        elif current_state == GAME:
+            # Check for fall death
+            if player.rect.y >= 1000:
+                player.death()
 
-        # If player is dead, show death screen
-        if player.DEATH:
-            draw_death_screen(window)
-            continue
-        print(player.rect.y)
+            # If player is dead, show death screen
+            if player.DEATH:
+                draw_death_screen(window)
+                continue
 
-    
-        for obj in objects:
-            obj.loop()
-        player.loop(FPS,dt)
+            # Update game objects
+            for obj in objects:
+                obj.loop()
+            player.loop(FPS, dt)
 
-        # fire.loop()
-        handle_move(player, objects)
-        draw(window, background, bg_image, player, objects, offset_x,offset_y)
+            # Handle player movement
+            handle_move(player, objects)
+            
+            # Update camera
+            if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_vel > 0) or (
+                    (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
+                offset_x += player.x_vel
 
-        if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_vel > 0) or (
-                (player.rect.left - offset_x <= scroll_area_width) and player.x_vel < 0):
-            offset_x += player.x_vel
+            if ((player.rect.top - offset_y >= HEIGHT - scroll_area_width) and player.y_vel > 0) or (
+                    (player.rect.bottom - offset_y <= scroll_area_width) and player.y_vel < 0):
+                offset_y += player.y_vel
 
+            # Draw game
+            draw(window, background, bg_image, player, objects, offset_x, offset_y)
 
-        if ((player.rect.top - offset_y >= HEIGHT - scroll_area_width) and player.y_vel > 0) or (
-                (player.rect.bottom - offset_y <= scroll_area_width) and player.y_vel < 0):
-            offset_y += player.y_vel
+            # Draw FPS
+            font = pygame.font.SysFont("Verdana", 20)
+            fps_text = font.render(str(round(clock.get_fps(), 2)), True, (255, 255, 255))
+            window.blit(fps_text, (10, 10))
+            pygame.display.update()
 
-
-        ## Fps
-        font = pygame.font.SysFont("Verdana", 20)
-        fps_text = font.render(str(round(clock.get_fps(), 2)), True, (255, 255, 255))
-        window.blit(fps_text, (10, 10))
-        pygame.display.update()
     pygame.quit()
     quit()
 

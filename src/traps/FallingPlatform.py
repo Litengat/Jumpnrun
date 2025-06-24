@@ -26,13 +26,7 @@ class FallingPlatform(Object):
         self.image = self.fire["Off"][0]
         self.mask = pygame.mask.Mask((width,height),True)
         self.animation_count = 0
-        self.animation_name = "Off"
-
-    def on(self):
         self.animation_name = "On"
-
-    def off(self):
-        self.animation_name = "Off"
 
     def loop(self):
         sprites = self.fire[self.animation_name]
@@ -49,12 +43,13 @@ class FallingPlatform(Object):
 
 
     def collide(self, player: Player):
-        if pygame.sprite.collide_mask(self, player) and self.animation_name == "On":
-            self.rect.y += 2
+        if pygame.sprite.collide_mask(self, player):
+            self.rect.y += 4
             return True
         return False
     
     def draw(self, win, offset_x,offset_y):
+        self.debug(win,offset_x,offset_y)
         x = self.rect.x - offset_x
         y = self.rect.y - offset_y + hitbox
     

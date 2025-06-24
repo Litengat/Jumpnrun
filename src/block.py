@@ -15,8 +15,8 @@ images = {
 
 
 class Block(Object):
-    def __init__(self, x, y, size,type):
-        super().__init__(x, y, size, size)
+    def __init__(self, x, y,type):
+        super().__init__(x, y,block_size,block_size)
         block = get_block(type)
         self.image.blit(block, (0, 0))
         self.mask = pygame.mask.from_surface(self.image)
