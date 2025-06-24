@@ -117,13 +117,49 @@ def handle_move(player, objects):
 
     for obj in to_check:
         if obj and obj.name == "fire":
-            player.make_hit()
+            player.death()
 
 
 
 
 
+def draw_death_screen(window):
+    """Draw the death screen with retry options"""
+    # Create a semi-transparent overlay
+    overlay = pygame.Surface((WIDTH, HEIGHT))
+    overlay.set_alpha(10)
+    overlay.fill((0, 0, 0))
+    window.blit(overlay, (0, 0))
     
+    # Fonts for text
+    title_font = pygame.font.SysFont("Arial", 72, bold=True)
+    instruction_font = pygame.font.SysFont("Arial", 36)
+    
+    # Game Over text
+    game_over_text = title_font.render("GAME OVER", True, (255, 0, 0))
+    game_over_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
+    window.blit(game_over_text, game_over_rect)
+    
+    # Retry instructions
+    retry_text = instruction_font.render("Press R to Retry", True, (255, 255, 255))
+    retry_rect = retry_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
+    window.blit(retry_text, retry_rect)
+    
+    # Quit instructions
+    quit_text = instruction_font.render("Press Q to Quit", True, (255, 255, 255))
+    quit_rect = quit_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 70))
+    window.blit(quit_text, quit_rect)
+    
+    pygame.display.update()
+
+def reset_game():
+    """Reset the game to initial state"""
+    player = Player(100, 100, 50, 50)
+    player.DEATH = False
+    objects = load_level("level")
+    offset_x = 0
+    offset_y = 0
+    return player, objects, offset_x, offset_y
 
 def main(window):
     clock = pygame.time.Clock()
@@ -161,16 +197,36 @@ def main(window):
 
     while run:
         dt = clock.tick(FPS) / 10
-        if player.DEATH:
-            continue
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 break
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and player.jump_count < 2:
-                    player.jump()
+                if player.DEATH:
+                    # Handle death screen inputs
+                    if event.key == pygame.K_r:
+                        # Retry the level
+                        player, objects, offset_x, offset_y = reset_game()
+                    elif event.key == pygame.K_q:
+                        # Quit the game
+                        run = False
+                        break
+                else:
+                    # Normal game inputs
+                    if event.key == pygame.K_SPACE and player.jump_count < 2:
+                        player.jump()
+        if( player.rect.y >= 1000):
+            player.death()
+
+
+        # If player is dead, show death screen
+        if player.DEATH:
+            draw_death_screen(window)
+            continue
+        print(player.rect.y)
+
     
         for obj in objects:
             obj.loop()

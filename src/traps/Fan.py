@@ -56,9 +56,9 @@ class Fan(Object):
     
         win.blit(self.image, (x,y))
 
-        self.particel(win,x,y)
+        self.particle(win,x,y)
 
-    def particel(self,win,x,y): 
+    def particle(self,win,x,y): 
         
         for _ in range(4):
             randomx = random.uniform(0, width * 2)

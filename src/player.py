@@ -7,7 +7,6 @@ class Player(pygame.sprite.Sprite):
     GRAVITY = 1
     SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
     ANIMATION_DELAY = 3
-    DEATH = False
     
     def __init__(self, x, y, width, height):
         super().__init__()
@@ -21,6 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.jump_count = 0
         self.hit = False
         self.hit_count = 0
+        self.DEATH = False
 
     def death(self):
         self.DEATH = True
