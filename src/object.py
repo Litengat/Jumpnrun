@@ -2,7 +2,7 @@ import pygame
 
 from player import Player
 
-WIDTH, HEIGHT = 1000, 800
+WIDTH, HEIGHT = 1280, 720
 gird_size = 96
 class Object(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, name=None):

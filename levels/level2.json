@@ -1,0 +1,377 @@
+{
+  "blocks": [
+    {
+      "type": "grass",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 1,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 2,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 3,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 15,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 16,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 17,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 18,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 27,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 28,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 29,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 30,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 43,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 27,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 25,
+      "y": 6
+    }
+  ],
+  "fires": [],
+  "objects": [
+    {
+      "type": "Fan",
+      "x": 4,
+      "y": 0
+    },
+    {
+      "type": "Saw",
+      "x": 4,
+      "y": 5
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 5,
+      "y": 3
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 7,
+      "y": 5
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 9,
+      "y": 7
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 11,
+      "y": 9
+    },
+    {
+      "type": "Fan",
+      "x": 13,
+      "y": 8
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 20,
+      "y": 12
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 22,
+      "y": 14
+    },
+    {
+      "type": "Saw",
+      "x": 20,
+      "y": 15
+    },
+    {
+      "type": "Saw",
+      "x": 22,
+      "y": 17
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 24,
+      "y": 16
+    },
+    {
+      "type": "Saw",
+      "x": 24,
+      "y": 19
+    },
+    {
+      "type": "Fan",
+      "x": 32,
+      "y": 17
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 34,
+      "y": 16
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 36,
+      "y": 14
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 38,
+      "y": 12
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 40,
+      "y": 10
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 42,
+      "y": 8
+    },
+    {
+      "type": "Saw",
+      "x": 6,
+      "y": 2
+    },
+    {
+      "type": "Saw",
+      "x": 8,
+      "y": 3
+    },
+    {
+      "type": "Saw",
+      "x": 10,
+      "y": 5
+    },
+    {
+      "type": "Saw",
+      "x": 12,
+      "y": 6
+    },
+    {
+      "type": "Saw",
+      "x": 14,
+      "y": 7
+    },
+    {
+      "type": "Saw",
+      "x": 19,
+      "y": 9
+    },
+    {
+      "type": "Saw",
+      "x": 21,
+      "y": 11
+    },
+    {
+      "type": "Saw",
+      "x": 23,
+      "y": 12
+    },
+    {
+      "type": "Saw",
+      "x": 24,
+      "y": 14
+    },
+    {
+      "type": "Saw",
+      "x": 26,
+      "y": 16
+    },
+    {
+      "type": "Saw",
+      "x": 30,
+      "y": 16
+    },
+    {
+      "type": "Saw",
+      "x": 31,
+      "y": 15
+    },
+    {
+      "type": "Saw",
+      "x": 34,
+      "y": 13
+    },
+    {
+      "type": "Saw",
+      "x": 35,
+      "y": 12
+    },
+    {
+      "type": "Saw",
+      "x": 16,
+      "y": 8
+    },
+    {
+      "type": "Saw",
+      "x": 37,
+      "y": 11
+    },
+    {
+      "type": "Saw",
+      "x": 38,
+      "y": 10
+    },
+    {
+      "type": "Saw",
+      "x": 39,
+      "y": 9
+    },
+    {
+      "type": "Saw",
+      "x": 36,
+      "y": 11
+    },
+    {
+      "type": "Saw",
+      "x": 32,
+      "y": 14
+    },
+    {
+      "type": "Saw",
+      "x": 33,
+      "y": 14
+    },
+    {
+      "type": "Saw",
+      "x": 22,
+      "y": 12
+    },
+    {
+      "type": "Saw",
+      "x": 25,
+      "y": 15
+    },
+    {
+      "type": "Saw",
+      "x": 20,
+      "y": 10
+    },
+    {
+      "type": "Saw",
+      "x": 18,
+      "y": 8
+    },
+    {
+      "type": "Saw",
+      "x": 17,
+      "y": 8
+    },
+    {
+      "type": "Saw",
+      "x": 13,
+      "y": 6
+    },
+    {
+      "type": "Saw",
+      "x": 11,
+      "y": 5
+    },
+    {
+      "type": "Saw",
+      "x": 9,
+      "y": 3
+    },
+    {
+      "type": "Saw",
+      "x": 10,
+      "y": 4
+    },
+    {
+      "type": "Saw",
+      "x": 7,
+      "y": 1
+    },
+    {
+      "type": "Saw",
+      "x": 7,
+      "y": 2
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 40,
+      "y": 6
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 37,
+      "y": 6
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 34,
+      "y": 6
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 31,
+      "y": 6
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 28,
+      "y": 6
+    },
+    {
+      "type": "Finish",
+      "x": 26,
+      "y": 7
+    }
+  ]
+}

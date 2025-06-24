@@ -129,7 +129,8 @@ def handle_move(player, objects):
 
 def reset_game(level_name="level"):
     """Reset the game to initial state"""
-    player = Player(0, HEIGHT + 96, 50, 50)
+    player = Player(0, HEIGHT - 96, 50, 50)
+    player.WINNING = False
     player.DEATH = False
     objects = load_level(level_name)
     offset_x = 0
@@ -203,7 +204,7 @@ def main(window):
                             current_state = MENU
                     elif player.WINNING:
                         completion_tracker.mark_completed(current_level_name)
-
+                        current_state = MENU
 
                     else:
                         # Normal game inputs
