@@ -18,7 +18,7 @@ class Object(pygame.sprite.Sprite):
         win.blit(self.image, (self.rect.x - offset_x, self.rect.y - offset_y))
 
     def debug(self, win, offset_x,offset_y):
-        pygame.draw.circle(win,(255,0,0),(self.rect.x - offset_x, self.rect.y - offset_y),5)
+        pass
 
     def collide(player: Player):
         pass

@@ -25,8 +25,11 @@ from os.path import isfile, join
 
 from block import Block
 from fire import Fire
+from finish import Finish
 from player import Player
 from level_loader import load_level
+from sprites import load_sprite_sheets
+from completion_tracker import CompletionTracker
 
 
 
@@ -115,9 +118,18 @@ def handle_move(player, objects):
     vertical_collide = handle_vertical_collision(player, objects, player.y_vel)
     to_check = [collide_left, collide_right, *vertical_collide]
 
-    for obj in to_check:
-        if obj and obj.name == "fire":
-            player.death()
+    # level_completed = False
+    #     elif obj and obj.name == "finish":
+    #         # Player reached finish line
+    #         if obj.activate():  # Only trigger once
+    #             # Trigger confetti from screen corners towards finish line
+    #             confetti_system.trigger(obj.rect.centerx, obj.rect.centery, 70)
+    #             # Mark level as completed
+    #             completion_tracker.mark_completed(current_level_name)
+    #             level_completed = True
+    #             print(f"Level {current_level_name} completed!")
+    
+    # return level_completed
 
 
 
@@ -152,7 +164,7 @@ def draw_death_screen(window):
 
 def reset_game(level_name="level"):
     """Reset the game to initial state"""
-    player = Player(100, 100, 50, 50)
+    player = Player(0, HEIGHT + 96, 50, 50)
     player.DEATH = False
     objects = load_level(level_name)
     offset_x = 0
@@ -170,46 +182,162 @@ def get_available_levels():
                 levels.append(level_name)
     return sorted(levels)
 
-def draw_menu(window, background, bg_image, selected_level, available_levels):
-    """Draw the main menu"""
+def generate_level_preview(level_name, preview_width=400, preview_height=300):
+    """Generate a preview surface for a level using actual game images"""
+    preview_surface = pygame.Surface((preview_width, preview_height))
+    preview_surface.fill((50, 50, 100))  # Dark blue background
+    
+    try:
+        # Load level data
+        objects = load_level(level_name)
+        
+        # Find bounds of the level
+        min_x = min_y = float('inf')
+        max_x = max_y = float('-inf')
+        
+        for obj in objects:
+            min_x = min(min_x, obj.rect.x)
+            min_y = min(min_y, obj.rect.y)
+            max_x = max(max_x, obj.rect.x + obj.rect.width)
+            max_y = max(max_y, obj.rect.y + obj.rect.height)
+        
+        if min_x == float('inf'):  # Empty level
+            return preview_surface
+        
+        # Calculate scale to fit level in preview
+        level_width = max_x - min_x
+        level_height = max_y - min_y
+        
+        scale_x = preview_width / max(level_width, 1)
+        scale_y = preview_height / max(level_height, 1)
+        scale = min(scale_x, scale_y, 0.3)  # Limit max scale for better visibility
+        
+        # Draw objects using their actual images
+        for obj in objects:
+            # Calculate preview position
+            preview_x = int((obj.rect.x - min_x) * scale)
+            preview_y = int((obj.rect.y - min_y) * scale)
+            preview_w = max(int(obj.rect.width * scale), 1)
+            preview_h = max(int(obj.rect.height * scale), 1)
+            
+            # Get the actual image from the object and scale it down
+            if hasattr(obj, 'image') and obj.image:
+                try:
+                    # Scale the object's image to fit the preview
+                    scaled_image = pygame.transform.scale(obj.image, (preview_w, preview_h))
+                    preview_surface.blit(scaled_image, (preview_x, preview_y))
+                except (pygame.error, ValueError):
+                    # If scaling fails, use a colored rectangle as fallback
+                    color = get_object_fallback_color(obj)
+                    pygame.draw.rect(preview_surface, color, (preview_x, preview_y, preview_w, preview_h))
+            else:
+                # If no image, use colored rectangle
+                color = get_object_fallback_color(obj)
+                pygame.draw.rect(preview_surface, color, (preview_x, preview_y, preview_w, preview_h))
+    
+    except Exception as e:
+        # If level fails to load, show error message
+        font = pygame.font.SysFont("Arial", 20)
+        error_text = font.render("Preview Error", True, (255, 100, 100))
+        preview_surface.blit(error_text, (10, 10))
+        print(f"Preview generation error for {level_name}: {e}")
+    
+    return preview_surface
+
+def get_object_fallback_color(obj):
+    """Get fallback color for objects when image is not available"""
+    if hasattr(obj, 'name'):
+        if obj.name == "fire":
+            return (255, 100, 0)  # Orange for fire
+        elif obj.name == "fan":
+            return (150, 150, 255)  # Light blue for fan
+        elif "saw" in obj.name.lower():
+            return (200, 200, 200)  # Gray for saw
+        elif obj.name == "finish":
+            return (255, 215, 0)  # Gold for finish line
+    return (100, 200, 100)  # Default green for blocks
+
+def draw_slideshow_menu(window, background, bg_image, selected_level, available_levels, level_previews, completion_tracker):
+    """Draw the slideshow-style level selection menu"""
     # Draw background
     for tile in background:
         window.blit(bg_image, tile)
     
+    # Semi-transparent overlay for better text visibility
+    overlay = pygame.Surface((WIDTH, HEIGHT))
+    overlay.set_alpha(100)
+    overlay.fill((0, 0, 0))
+    window.blit(overlay, (0, 0))
+    
     # Fonts
     title_font = pygame.font.SysFont("Arial", 72, bold=True)
-    level_font = pygame.font.SysFont("Arial", 48)
-    instruction_font = pygame.font.SysFont("Arial", 32)
+    level_font = pygame.font.SysFont("Arial", 48, bold=True)
+    counter_font = pygame.font.SysFont("Arial", 36)
+    instruction_font = pygame.font.SysFont("Arial", 28)
     
     # Title
     title_text = title_font.render("JUMP N RUN", True, (255, 255, 255))
-    title_rect = title_text.get_rect(center=(WIDTH // 2, 100))
+    title_rect = title_text.get_rect(center=(WIDTH // 2, 80))
     window.blit(title_text, title_rect)
     
-    # Level selection
-    level_title = level_font.render("Select Level:", True, (255, 255, 255))
-    level_title_rect = level_title.get_rect(center=(WIDTH // 2, 200))
-    window.blit(level_title, level_title_rect)
-    
-    # Draw level options
-    start_y = 280
-    for i, level in enumerate(available_levels):
-        color = (255, 255, 0) if i == selected_level else (255, 255, 255)
-        level_text = level_font.render(f"{i + 1}. {level}", True, color)
-        level_rect = level_text.get_rect(center=(WIDTH // 2, start_y + i * 60))
+    if available_levels:
+        current_level = available_levels[selected_level]
+        is_completed = completion_tracker.is_completed(current_level)
+        
+        # Level counter
+        counter_text = counter_font.render(f"{selected_level + 1} / {len(available_levels)}", True, (200, 200, 200))
+        counter_rect = counter_text.get_rect(center=(WIDTH // 2, 150))
+        window.blit(counter_text, counter_rect)
+        
+        # Completion status
+        if is_completed:
+            completed_text = counter_font.render("✓ COMPLETED", True, (0, 255, 0))
+            completed_rect = completed_text.get_rect(center=(WIDTH // 2 + 200, 150))
+            window.blit(completed_text, completed_rect)
+        
+        # Current level name
+        level_color = (0, 255, 0) if is_completed else (255, 255, 100)
+        level_text = level_font.render(current_level.upper(), True, level_color)
+        level_rect = level_text.get_rect(center=(WIDTH // 2, 200))
         window.blit(level_text, level_rect)
+        
+        # Preview box
+        preview_width = 400
+        preview_height = 300
+        preview_x = (WIDTH - preview_width) // 2
+        preview_y = 250
+        
+        # draw preview border (green if completed, yellow if not)
+        border_color = (0, 255, 0) if is_completed else (255, 255, 100)
+        border_rect = pygame.Rect(preview_x - 5, preview_y - 5, preview_width + 10, preview_height + 10)
+        pygame.draw.rect(window, border_color, border_rect, 3)
+        
+        # Draw preview
+        if current_level in level_previews:
+            window.blit(level_previews[current_level], (preview_x, preview_y))
+        else:
+            # Generate preview if not cached
+            preview = generate_level_preview(current_level, preview_width, preview_height)
+            level_previews[current_level] = preview
+            window.blit(preview, (preview_x, preview_y))
+        
+        # Navigation arrows
+        arrow_font = pygame.font.SysFont("Arial", 60, bold=True)
+        
+        # Left arrow (if not first level)
+        if selected_level > 0:
+            left_arrow = arrow_font.render("◀", True, (255, 255, 255))
+            left_rect = left_arrow.get_rect(center=(100, 400))
+            window.blit(left_arrow, left_rect)
+        
+        # Right arrow (if not last level)
+        if selected_level < len(available_levels) - 1:
+            right_arrow = arrow_font.render("▶", True, (255, 255, 255))
+            right_rect = right_arrow.get_rect(center=(WIDTH - 100, 400))
+            window.blit(right_arrow, right_rect)
     
-    # Instructions
-    instructions = [
-        "Use UP/DOWN arrows to select level",
-        "Press ENTER to start",
-        "Press ESC to quit"
-    ]
+    # Show completion progress
     
-    for i, instruction in enumerate(instructions):
-        inst_text = instruction_font.render(instruction, True, (200, 200, 200))
-        inst_rect = inst_text.get_rect(center=(WIDTH // 2, HEIGHT - 150 + i * 40))
-        window.blit(inst_text, inst_rect)
     
     pygame.display.update()
 
@@ -222,10 +350,14 @@ def main(window):
     GAME = "game"
     current_state = MENU
     
+    # Initialize systems
+    completion_tracker = CompletionTracker()
+    
     # Menu variables
     available_levels = get_available_levels()
     selected_level_index = 0
     current_level_name = available_levels[0] if available_levels else "level"
+    level_previews = {}  # Cache for level previews
     
     # Game variables
     block_size = 96
@@ -234,6 +366,7 @@ def main(window):
     offset_x = 0
     offset_y = 0
     scroll_area_width = 200
+    level_completed = False
 
     run = True
 
@@ -247,15 +380,16 @@ def main(window):
 
             if event.type == pygame.KEYDOWN:
                 if current_state == MENU:
-                    # Menu navigation
-                    if event.key == pygame.K_UP:
+                    # Menu navigation (slideshow style)
+                    if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                         selected_level_index = (selected_level_index - 1) % len(available_levels)
-                    elif event.key == pygame.K_DOWN:
+                    elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
                         selected_level_index = (selected_level_index + 1) % len(available_levels)
-                    elif event.key == pygame.K_RETURN:
+                    elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         # Start selected level
                         current_level_name = available_levels[selected_level_index]
                         player, objects, offset_x, offset_y = reset_game(current_level_name)
+                        level_completed = False
                         current_state = GAME
                     elif event.key == pygame.K_ESCAPE:
                         run = False
@@ -267,6 +401,7 @@ def main(window):
                         if event.key == pygame.K_r:
                             # Retry the current level
                             player, objects, offset_x, offset_y = reset_game(current_level_name)
+                            level_completed = False
                         elif event.key == pygame.K_q:
                             # Return to menu
                             current_state = MENU
@@ -280,12 +415,21 @@ def main(window):
                         elif event.key == pygame.K_ESCAPE:
                             # Return to menu
                             current_state = MENU
+                        elif event.key == pygame.K_n and level_completed:
+                            # Go to next level if available
+                            next_index = (selected_level_index + 1) % len(available_levels)
+                            current_level_name = available_levels[next_index]
+                            selected_level_index = next_index
+                            player, objects, offset_x, offset_y = reset_game(current_level_name)
+                            level_completed = False
 
         if current_state == MENU:
-            # Draw menu
-            draw_menu(window, background, bg_image, selected_level_index, available_levels)
+            # Draw slideshow menu
+            draw_slideshow_menu(window, background, bg_image, selected_level_index, available_levels, level_previews, completion_tracker)
             
         elif current_state == GAME:
+            # Update confetti system
+            
             # Check for fall death
             if player.rect.y >= 1000:
                 player.death()
@@ -300,8 +444,9 @@ def main(window):
                 obj.loop()
             player.loop(FPS, dt)
 
-            # Handle player movement
-            handle_move(player, objects)
+            # Handle player movement and check for level completion
+            if not level_completed:
+                level_completed = handle_move(player, objects)
             
             # Update camera
             if ((player.rect.right - offset_x >= WIDTH - scroll_area_width) and player.x_vel > 0) or (
@@ -314,6 +459,18 @@ def main(window):
 
             # Draw game
             draw(window, background, bg_image, player, objects, offset_x, offset_y)
+            
+            # Show level completion message
+            if level_completed:
+                font = pygame.font.SysFont("Arial", 48, bold=True)
+                completion_text = font.render("LEVEL COMPLETE!", True, (255, 255, 0))
+                completion_rect = completion_text.get_rect(center=(WIDTH // 2, 100))
+                window.blit(completion_text, completion_rect)
+                
+                instruction_font = pygame.font.SysFont("Arial", 32)
+                next_text = instruction_font.render("Press N for next level or ESC for menu", True, (255, 255, 255))
+                next_rect = next_text.get_rect(center=(WIDTH // 2, 150))
+                window.blit(next_text, next_rect)
 
             # Draw FPS
             font = pygame.font.SysFont("Verdana", 20)

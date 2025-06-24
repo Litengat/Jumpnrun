@@ -16,6 +16,7 @@ const fireTool = document.getElementById("fire-tool");
 const fanTool = document.getElementById("fan-tool");
 const sawTool = document.getElementById("saw-tool");
 const fallingPlatformTool = document.getElementById("falling-platform-tool");
+const finishTool = document.getElementById("finish-tool");
 const eraseTool = document.getElementById("erase-tool");
 const downloadBtn = document.getElementById("download-btn");
 const clearBtn = document.getElementById("clear-btn");
@@ -108,6 +109,7 @@ function setActiveTool(tool) {
     fanTool,
     sawTool,
     fallingPlatformTool,
+    finishTool,
     eraseTool,
   ].forEach((btn) => btn.classList.remove("active"));
   document.getElementById(`${tool}-tool`).classList.add("active");
@@ -120,6 +122,7 @@ sawTool.addEventListener("click", () => setActiveTool("saw"));
 fallingPlatformTool.addEventListener("click", () =>
   setActiveTool("falling-platform")
 );
+finishTool.addEventListener("click", () => setActiveTool("finish"));
 eraseTool.addEventListener("click", () => setActiveTool("erase"));
 
 // Handle cell clicks
@@ -131,7 +134,14 @@ function handleCellClick(x, y) {
   level.blocks = level.blocks.filter((b) => !(b.x === x && b.y === y));
   level.fires = level.fires.filter((f) => !(f.x === x && f.y === y));
   level.objects = level.objects.filter((o) => !(o.x === x && o.y === y));
-  cell.classList.remove("grass", "fire", "fan", "saw", "fallingplatform");
+  cell.classList.remove(
+    "grass",
+    "fire",
+    "fan",
+    "saw",
+    "fallingplatform",
+    "finish"
+  );
 
   // Add new element if not erasing
   if (currentTool !== "erase") {
@@ -150,6 +160,9 @@ function handleCellClick(x, y) {
     } else if (currentTool === "falling-platform") {
       level.objects.push({ type: "FallingPlatform", x, y });
       cell.classList.add("fallingplatform");
+    } else if (currentTool === "finish") {
+      level.objects.push({ type: "Finish", x, y });
+      cell.classList.add("finish");
     }
   }
 }
@@ -174,7 +187,14 @@ function clearLevel() {
   if (!confirm("Are you sure you want to clear the level?")) return;
   level = { blocks: [], fires: [], objects: [] };
   visibleCells.forEach((cell) => {
-    cell.classList.remove("grass", "fire", "fan", "saw", "fallingplatform");
+    cell.classList.remove(
+      "grass",
+      "fire",
+      "fan",
+      "saw",
+      "fallingplatform",
+      "finish"
+    );
   });
 }
 
@@ -185,7 +205,14 @@ function loadLevel(json) {
   if (!level.objects) level.objects = [];
 
   visibleCells.forEach((cell) => {
-    cell.classList.remove("grass", "fire", "fan", "saw", "fallingplatform");
+    cell.classList.remove(
+      "grass",
+      "fire",
+      "fan",
+      "saw",
+      "fallingplatform",
+      "finish"
+    );
   });
 
   level.blocks.forEach((block) => {

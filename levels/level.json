@@ -332,6 +332,11 @@
       "type": "FallingPlatform",
       "x": 24,
       "y": 22
+    },
+    {
+      "type": "Finish",
+      "x": 27,
+      "y": 21
     }
   ]
 }

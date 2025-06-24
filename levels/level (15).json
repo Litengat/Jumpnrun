@@ -1,0 +1,392 @@
+{
+  "blocks": [
+    {
+      "type": "grass",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 2,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 1,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 3,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 4,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 5,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 6,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 7,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 8,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 9,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 10,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 3,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 5,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 4,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 6,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 7,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 8,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 10,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 9,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 4
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 17
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 16
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 13
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 12
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 10
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 11,
+      "y": 14
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 17
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 16
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 15
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 14
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 13
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 12
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 9
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 11
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 10
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 8
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 7
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 6
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 5
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 4
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 3
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 2
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 1
+    },
+    {
+      "type": "grass",
+      "x": 26,
+      "y": 0
+    },
+    {
+      "type": "grass",
+      "x": 25,
+      "y": 17
+    },
+    {
+      "type": "grass",
+      "x": 25,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 27,
+      "y": 18
+    },
+    {
+      "type": "grass",
+      "x": 27,
+      "y": 17
+    },
+    {
+      "type": "grass",
+      "x": 25,
+      "y": 16
+    },
+    {
+      "type": "grass",
+      "x": 27,
+      "y": 16
+    }
+  ],
+  "fires": [],
+  "objects": [
+    {
+      "type": "Fan",
+      "x": 5,
+      "y": 1
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 3,
+      "y": 5
+    },
+    {
+      "type": "Fan",
+      "x": 5,
+      "y": 11
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 3,
+      "y": 9
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 14,
+      "y": 18
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 17,
+      "y": 18
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 20,
+      "y": 18
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 23,
+      "y": 18
+    },
+    {
+      "type": "Fan",
+      "x": 29,
+      "y": 18
+    },
+    {
+      "type": "Fan",
+      "x": 1,
+      "y": 6
+    },
+    {
+      "type": "FallingPlatform",
+      "x": 3,
+      "y": 14
+    },
+    {
+      "type": "Fan",
+      "x": 1,
+      "y": 15
+    },
+    {
+      "type": "Saw",
+      "x": 1,
+      "y": 11
+    },
+    {
+      "type": "Saw",
+      "x": 5,
+      "y": 7
+    }
+  ]
+}

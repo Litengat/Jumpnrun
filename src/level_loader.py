@@ -3,6 +3,7 @@ import os
 from os.path import join
 from block import Block
 from fire import Fire
+from finish import Finish
 from traps.FallingPlatform import FallingPlatform
 from traps.Fan import Fan
 from traps.Saw import Saw
@@ -39,6 +40,8 @@ def load_level(level_name):
                     objects.append(Saw(x,y))
                 if(type == "FallingPlatform"):
                     objects.append(FallingPlatform(x,y))
+                if(type == "Finish"):
+                    objects.append(Finish(x,y))
                     
         # # Load fire traps
         # if "fires" in level_data:
@@ -59,5 +62,4 @@ def load_level(level_name):
     except json.JSONDecodeError:
         print(f"Error parsing level file '{level_name}.json'. Invalid JSON format.")
         return []
-    
-    
+
