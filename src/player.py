@@ -32,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.fall_count = 0
 
     def jump(self):
-        self.y_vel = -self.GRAVITY * 8
+        self.y_vel = -self.GRAVITY * 10
         self.animation_count = 0
         self.jump_count += 1
         if self.jump_count == 1:
@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
             self.direction = "right"
             self.animation_count = 0
 
-    def loop(self, fps):
+    def loop(self, fps,dt):
         self.y_vel += min(1, (self.fall_count / fps) * self.GRAVITY)
         self.move(self.x_vel, self.y_vel)
 
@@ -107,4 +107,7 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.sprite)
 
     def draw(self, win, offset_x,offset_y):
+        font = pygame.font.SysFont("Verdana", 20)
+        fps_text = font.render(str(round(int(self.animation_count), 2)), True, (255, 255, 255))
+        win.blit(fps_text, (10, 30))
         win.blit(self.sprite, (self.rect.x - offset_x, self.rect.y - offset_y))

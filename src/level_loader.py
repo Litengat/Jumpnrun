@@ -3,7 +3,9 @@ import os
 from os.path import join
 from block import Block
 from fire import Fire
+from traps.FallingPlatform import FallingPlatform
 from traps.Fan import Fan
+from traps.Saw import Saw
 
 def load_level(level_name):
     """Load a level from a JSON file and return a list of game objects."""
@@ -33,7 +35,10 @@ def load_level(level_name):
                 y = block_data["y"]
                 if(type == "Fan"):
                     objects.append(Fan(x,y))
-                # if(type == "Saw"):
+                if(type == "Saw"):
+                    objects.append(Saw(x,y))
+                if(type == "FallingPlatform"):
+                    objects.append(FallingPlatform(x,y))
                     
         # # Load fire traps
         # if "fires" in level_data:

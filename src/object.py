@@ -18,3 +18,5 @@ class Object(pygame.sprite.Sprite):
     
     def collide(player: Player):
         pass
+    def loop(self):
+        pass

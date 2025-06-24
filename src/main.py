@@ -138,15 +138,7 @@ def main(window):
     
     # Load level objects from JSON
     objects = load_level("level")
-    fan = Fan(3,4,"up")
-    saw = Saw(3,6)
-    platform = FallingPlatform(4,4)
-    saw.on()
-    platform.on()
-    objects.append(fan)
-    objects.append(saw)
-    objects.append(platform)
-    
+
     # Create floor blocks as a fallback if no level is loaded
     # floor = [Block(i * block_size, HEIGHT - block_size, block_size)
     #          for i in range(-WIDTH // block_size, (WIDTH * 2) // block_size)]
@@ -166,9 +158,9 @@ def main(window):
     scroll_area_width = 200
 
     run = True
-    fan.on()
+
     while run:
-        clock.tick(FPS)
+        dt = clock.tick(FPS) / 10
         if player.DEATH:
             continue
         for event in pygame.event.get():
@@ -180,10 +172,9 @@ def main(window):
                 if event.key == pygame.K_SPACE and player.jump_count < 2:
                     player.jump()
     
-        fan.loop()
-        saw.loop()
-        platform.loop()
-        player.loop(FPS)
+        for obj in objects:
+            obj.loop()
+        player.loop(FPS,dt)
 
         # fire.loop()
         handle_move(player, objects)
