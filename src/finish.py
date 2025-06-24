@@ -46,6 +46,8 @@ class Finish(Object):
     def collide(self, player):
         if pygame.sprite.collide_mask(self, player):
             self.animation_name = "Pressed"
+            print("Finish line reached!")
+            player.WINNING = True
 
             return True
         return False

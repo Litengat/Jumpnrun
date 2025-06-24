@@ -7,6 +7,7 @@ class Player(pygame.sprite.Sprite):
     GRAVITY = 1
     SPRITES = load_sprite_sheets("MainCharacters", "MaskDude", 32, 32, True)
     ANIMATION_DELAY = 3
+    WINNING = False
     
     def __init__(self, x, y, width, height):
         super().__init__()
