@@ -2,12 +2,11 @@ import os
 import pygame
 from level_loader import load_level
 
-# Screen dimensions (should match main.py)
+# Screen dimensions 
 WIDTH, HEIGHT = 1280, 720
 
 
 def get_available_levels():
-    """Get list of available level files"""
     levels_dir = "levels"
     levels = []
     if os.path.exists(levels_dir):
@@ -19,7 +18,7 @@ def get_available_levels():
 
 
 def generate_level_preview(level_name, preview_width=400, preview_height=300):
-    """Generate a preview surface for a level using actual game images"""
+    #Generate a preview surface for a level using actual game images
     preview_surface = pygame.Surface((preview_width, preview_height))
     preview_surface.fill((50, 50, 100))  # Dark blue background
     
@@ -27,7 +26,7 @@ def generate_level_preview(level_name, preview_width=400, preview_height=300):
         # Load level data
         objects = load_level(level_name)
         
-        # Find bounds of the level
+        # bounds of the level
         min_x = min_y = float('inf')
         max_x = max_y = float('-inf')
         
@@ -64,11 +63,11 @@ def generate_level_preview(level_name, preview_width=400, preview_height=300):
                     preview_surface.blit(scaled_image, (preview_x, preview_y))
                 except (pygame.error, ValueError):
                     # If scaling fails, use a colored rectangle as fallback
-                    color = get_object_fallback_color(obj)
+                    color = (0,0,0)
                     pygame.draw.rect(preview_surface, color, (preview_x, preview_y, preview_w, preview_h))
             else:
                 # If no image, use colored rectangle
-                color = get_object_fallback_color(obj)
+                color = (0,0,0)
                 pygame.draw.rect(preview_surface, color, (preview_x, preview_y, preview_w, preview_h))
     
     except Exception as e:
@@ -81,27 +80,12 @@ def generate_level_preview(level_name, preview_width=400, preview_height=300):
     return preview_surface
 
 
-def get_object_fallback_color(obj):
-    """Get fallback color for objects when image is not available"""
-    if hasattr(obj, 'name'):
-        if obj.name == "fire":
-            return (255, 100, 0)  # Orange for fire
-        elif obj.name == "fan":
-            return (150, 150, 255)  # Light blue for fan
-        elif "saw" in obj.name.lower():
-            return (200, 200, 200)  # Gray for saw
-        elif obj.name == "finish":
-            return (255, 215, 0)  # Gold for finish line
-    return (100, 200, 100)  # Default green for blocks
-
-
 def draw_slideshow_menu(window, background, bg_image, selected_level, available_levels, level_previews, completion_tracker):
-    """Draw the slideshow-style level selection menu"""
     # Draw background
     for tile in background:
         window.blit(bg_image, tile)
     
-    # Semi-transparent overlay for better text visibility
+    # Semi-transparent overlay
     overlay = pygame.Surface((WIDTH, HEIGHT))
     overlay.set_alpha(100)
     overlay.fill((0, 0, 0))
@@ -162,13 +146,13 @@ def draw_slideshow_menu(window, background, bg_image, selected_level, available_
         # Navigation arrows
         arrow_font = pygame.font.SysFont("Arial", 60, bold=True)
         
-        # Left arrow (if not first level)
+        # Left arrow 
         if selected_level > 0:
             left_arrow = arrow_font.render("◀", True, (255, 255, 255))
             left_rect = left_arrow.get_rect(center=(100, 400))
             window.blit(left_arrow, left_rect)
         
-        # Right arrow (if not last level)
+        # Right arrow
         if selected_level < len(available_levels) - 1:
             right_arrow = arrow_font.render("▶", True, (255, 255, 255))
             right_rect = right_arrow.get_rect(center=(WIDTH - 100, 400))
@@ -178,7 +162,6 @@ def draw_slideshow_menu(window, background, bg_image, selected_level, available_
 
 
 def draw_death_screen(window):
-    """Draw the death/game over screen"""
     # Semi-transparent overlay
     overlay = pygame.Surface((WIDTH, HEIGHT))
     overlay.set_alpha(10)
@@ -207,7 +190,6 @@ def draw_death_screen(window):
 
 
 def draw_level_completion_ui(window):
-    """Draw the level completion overlay"""
     font = pygame.font.SysFont("Arial", 48, bold=True)
     completion_text = font.render("LEVEL COMPLETE!", True, (255, 255, 0))
     completion_rect = completion_text.get_rect(center=(WIDTH // 2, 100))
@@ -220,7 +202,6 @@ def draw_level_completion_ui(window):
 
 
 class MenuHandler:
-    """Class to handle menu state and navigation"""
     
     def __init__(self):
         self.available_levels = get_available_levels()
@@ -228,30 +209,25 @@ class MenuHandler:
         self.level_previews = {}  # Cache for level previews
     
     def get_current_level_name(self):
-        """Get the currently selected level name"""
         if self.available_levels:
             return self.available_levels[self.selected_level_index]
         return "level"
     
     def navigate_left(self):
-        """Navigate to previous level"""
         if self.available_levels:
             self.selected_level_index = (self.selected_level_index - 1) % len(self.available_levels)
     
     def navigate_right(self):
-        """Navigate to next level"""
         if self.available_levels:
             self.selected_level_index = (self.selected_level_index + 1) % len(self.available_levels)
     
     def go_to_next_level(self):
-        """Move to the next level (for level completion)"""
         if self.available_levels:
             self.selected_level_index = (self.selected_level_index + 1) % len(self.available_levels)
             return self.get_current_level_name()
         return "level"
     
     def draw(self, window, background, bg_image, completion_tracker):
-        """Draw the menu"""
         draw_slideshow_menu(
             window, background, bg_image, 
             self.selected_level_index, self.available_levels, 

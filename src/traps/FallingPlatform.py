@@ -36,7 +36,6 @@ class FallingPlatform(Object):
         self.animation_count += 1
 
         self.rect = self.image.get_rect(topleft=(self.rect.x, self.rect.y))
-        # self.mask = pygame.mask.from_surface(self.image)
 
         if self.animation_count // self.ANIMATION_DELAY > len(sprites):
             self.animation_count = 0
@@ -81,9 +80,8 @@ class FallingPlatform(Object):
             ###  Radius schrumpft proportional zur Entfernung
             radius = particle["radius"] * (1 - progress_expo_radus)
 
-            # radius = max(0.1, radius)  # nie ganz verschwinden lassen
       
-            # Alpha-Wert reduziert  sich ebenfalls
+            # Alpha-Wert reduziert sich ebenfalls
             progress_expo_alpha = math.pow(0.1, 1- progress)
             alpha = max(0, int(255 * (1 - progress_expo_alpha)))
             color = (255, 255, 255, alpha)

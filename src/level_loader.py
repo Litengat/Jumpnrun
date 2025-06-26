@@ -18,8 +18,6 @@ def load_level(level_name):
         
         print(level_data)
         objects = []
-        
-
 
         # Load blocks
         if "blocks" in level_data:
@@ -42,19 +40,6 @@ def load_level(level_name):
                     objects.append(FallingPlatform(x,y))
                 if(type == "Finish"):
                     objects.append(Finish(x,y))
-                    
-        # # Load fire traps
-        # if "fires" in level_data:
-        #     for fire_data in level_data["fires"]:
-        #         x = fire_data["x"]
-        #         y = fire_data["y"]
-        #         width = fire_data.get("width", 16)
-        #         height = fire_data.get("height", 32)
-        #         fire = Fire(x, y, width, height)
-        #         fire.on()
-        #         objects.append(fire)
-
-        
         return objects
     except FileNotFoundError:
         print(f"Level file '{level_name}.json' not found.")

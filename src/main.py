@@ -107,21 +107,6 @@ def handle_move(player, objects):
     if keys[pygame.K_d] and not collide_right:
         player.move_right(PLAYER_VEL)
 
-    vertical_collide = handle_vertical_collision(player, objects, player.y_vel)
-    to_check = [collide_left, collide_right, *vertical_collide]
-
-    # level_completed = False
-    #     elif obj and obj.name == "finish":
-    #         # Player reached finish line
-    #         if obj.activate():  # Only trigger once
-    #             # Trigger confetti from screen corners towards finish line
-    #             confetti_system.trigger(obj.rect.centerx, obj.rect.centery, 70)
-    #             # Mark level as completed
-    #             completion_tracker.mark_completed(current_level_name)
-    #             level_completed = True
-    #             print(f"Level {current_level_name} completed!")
-    
-    # return level_completed
 
 
 
